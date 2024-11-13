@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Nossa Cafeteria</title>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gravitas+One&family=Pacifico&family=Unlock&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!--Cabeçalho-->
+    <header>
+        <section>
+            <div class="container">
+                <div class="banner">
+                    <img src="./src/imagens/Cabeçalho.png">
+                </div>
+
+                <div class="bannerresponsivo">
+                    <img src="./src/imagens/CabeçalhoResponsivo.png">
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <!--Itens do Cardápio-->
+    <div class="cardapio-container">
+        <div class="cardapio-type">
+            <h2>Salgados</h2>
+        </div>
+    
+        <div id="salgados-list"></div>
+    </div>
+
+    <button class="add-button" id="add-button">ADICIONAR</button>
+
+    <!-- Menu para adicionar novos itens -->
+    <div id="add-menu" class="add-menu hidden">
+        <h2>Adicionar Novo Item</h2>
+        <label for="itemNome">Nome:</label>
+        <input type="text" id="itemNome" placeholder="Digite o nome do item" required>
+        
+        <label for="itemPreco">Preço:</label>
+        <input type="number" id="itemPreco" placeholder="Digite o preço do item" step="0.01" required>
+        
+        <label for="itemDescricao">Descrição:</label>
+        <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
+        
+        <button id="save-button" class="save-button">SALVAR</button>
+        <button id="cancel-button" class="cancel-button">CANCELAR</button>
+    </div>
+
+</body>
+
+<script>
+
+// Chama a função para buscar dados ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    buscarDados();
+});
+
+// Função para buscar dados do backend
+function buscarDados() {
+    fetch('/Salgado/api')
+        .then(response => response.json())
+        .then(data => {
+            const salgadosList = document.getElementById("salgados-list");
+            salgadosList.innerHTML = "";
+
+            data.forEach(item => {
+                const cardapioItem = document.createElement("div");
+                cardapioItem.classList.add("cardapio-item");
+
+                const itemDetails = document.createElement("div");
+                itemDetails.classList.add("item-details");
+
+                const itemNome = document.createElement("h3");
+                itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
+
+                const itemDescricao = document.createElement("p");
+                itemDescricao.textContent = item.descricao;
+
+                const orderButton = document.createElement("div");
+                orderButton.classList.add("order-button");
+
+                const editButton = document.createElement("button");
+                editButton.classList.add("edit-button");
+                editButton.textContent = "EDITAR";
+                editButton.addEventListener("click", () => editarItem(item));
+
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("delete-button");
+                deleteButton.textContent = "EXCLUIR";
+                deleteButton.addEventListener("click", () => excluirItem(item.id));
+
+                itemDetails.appendChild(itemNome);
+                itemDetails.appendChild(itemDescricao);
+                cardapioItem.appendChild(itemDetails);
+                cardapioItem.appendChild(orderButton);
+                orderButton.appendChild(editButton);
+                orderButton.appendChild(deleteButton);
+                salgadosList.appendChild(cardapioItem);
+            });
+        })
+        .catch(error => console.error("Erro ao buscar dados:", error));
+}
+
+// Função para excluir um item
+function excluirItem(id) {
+    fetch('/Salgado/excluir', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(id),
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Item excluído com sucesso.");
+            buscarDados(); // Atualiza a lista de salgados
+        } else {
+            console.error("Erro ao excluir o item:", response.statusText);
+        }
+    })
+    .catch(error => console.error("Erro ao excluir o item:", error));
+}
+
+// Função para preencher o formulário com dados do item a ser editado
+function editarItem(item) {
+    document.getElementById("itemNome").value = item.nome;
+    document.getElementById("itemPreco").value = item.preco;
+    document.getElementById("itemDescricao").value = item.descricao;
+    document.getElementById("add-menu").classList.remove("hidden");
+
+    document.getElementById("save-button").onclick = function () {
+        const updatedItem = {
+            id: item.id, // Inclui o ID para referenciar o item a ser alterado
+            nome: document.getElementById("itemNome").value,
+            preco: parseFloat(document.getElementById("itemPreco").value),
+            descricao: document.getElementById("itemDescricao").value
+        };
+
+        // Chama a API para atualizar o item
+        fetch('/Salgado/alterar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedItem),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Item atualizado com sucesso.");
+                document.getElementById("add-menu").classList.add("hidden");
+                clearForm();
+                buscarDados(); // Atualiza a lista de salgados
+            } else {
+                console.error("Erro ao atualizar o item:", response.statusText);
+            }
+        })
+        .catch(error => console.error("Erro ao atualizar o item:", error));
+    };
+}
+        // Exibir o formulário para adicionar novo item
+        document.getElementById("add-button").addEventListener("click", () => {
+            document.getElementById("add-menu").classList.remove("hidden");
+        });
+
+        // Cancelar adição de novo item e fechar o formulário
+        document.getElementById("cancel-button").addEventListener("click", () => {
+            document.getElementById("add-menu").classList.add("hidden");
+            clearForm();
+        });
+
+        // Salvar novo item
+        document.getElementById("save-button").addEventListener("click", () => {
+            const nome = document.getElementById("itemNome").value;
+            const preco = parseFloat(document.getElementById("itemPreco").value);
+            const descricao = document.getElementById("itemDescricao").value;
+
+            if (nome && !isNaN(preco) && descricao) {
+                // Cria um novo cardapioItem com os dados do formulário
+                const salgadosList = document.getElementById("salgados-list");
+
+                const cardapioItem = document.createElement("div");
+                cardapioItem.classList.add("cardapio-item");
+
+                const itemDetails = document.createElement("div");
+                itemDetails.classList.add("item-details");
+
+                const itemNome = document.createElement("h3");
+                itemNome.innerHTML = `${nome} <span class="price">R$ ${preco.toFixed(2)}</span>`;
+
+                const itemDescricao = document.createElement("p");
+                itemDescricao.textContent = descricao;
+
+                const orderButton = document.createElement("div");
+                orderButton.classList.add("order-button");
+
+                const editButton = document.createElement("button");
+                editButton.classList.add("edit-button");
+                editButton.textContent = "EDITAR";
+
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("delete-button");
+                deleteButton.textContent = "EXCLUIR";
+
+                itemDetails.appendChild(itemNome);
+                itemDetails.appendChild(itemDescricao);
+                cardapioItem.appendChild(itemDetails)
+                cardapioItem.appendChild(orderButton)
+                orderButton.appendChild(editButton);
+                orderButton.appendChild(deleteButton);
+                salgadosList.appendChild(cardapioItem);
+
+                // Fecha o menu e limpa o formulário
+                document.getElementById("add-menu").classList.add("hidden");
+                clearForm();
+            } else {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+            }
+        });
+
+        // Função para limpar o formulário
+        function clearForm() {
+            document.getElementById("itemNome").value = "";
+            document.getElementById("itemPreco").value = "";
+            document.getElementById("itemDescricao").value = "";
+        }
+
+</script>
+
+</html>

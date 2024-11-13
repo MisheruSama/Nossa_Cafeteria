@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.NossaCafeteria.Cardapio.Model.BebidaGelada;
 import com.NossaCafeteria.Cardapio.DAO.BebidaGeladaDAO;
+import com.NossaCafeteria.Cardapio.Model.BebidaGelada;
 
 @Controller
 public class BebidaGeladaController {
@@ -19,7 +19,7 @@ private BebidaGeladaDAO bebida;
 
 @GetMapping("/Bebidas")
 public String indexBebida(){
-    return "bebida";
+    return "ProjetoCardapio/bebida";
 }
 @GetMapping("/Bebidas/api")
 @ResponseBody

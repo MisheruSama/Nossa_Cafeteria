@@ -1,0 +1,435 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image:url(/NossaCafeteria/Cardapio/src/main/resources/ProjetoCardapio/src/imagens/Background.png);
+    background-size: cover;
+    margin-bottom: 100px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+header {
+    width: 100%;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    border-bottom: 5px solid #2F1305;
+}
+
+.container .banner {
+    display: flex;
+    width: 100%;
+    margin-left: auto;
+}
+
+.container .banner img {
+    width: 100%;
+    height: 100%;
+}
+
+.bannerresponsivo {
+    display: none;
+}
+
+  /* Campo de digitação */
+
+  .interface {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .interface h1 {
+    font-family: "Gravitas One", serif;
+    text-align: center;
+    padding: 70px;
+    font-size: 50px;
+    color: #2F1305;
+    margin: 5px 0;
+  }
+
+  .interface p {
+    font-family: "Gravitas One", serif;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+    color: #2F1305;
+    margin: 5px 0;
+  }
+
+  .display {
+    display: flex;
+    flex-direction: column;
+    font-family: "Gravitas One", serif;
+    height: 150px;
+    width: 350px;
+    border: none;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 18px;
+    color: #2F1305;
+    font-weight: bold;
+    background-color: transparent;
+    margin-top: 25px;
+}
+
+.username {
+    font-family: "Gravitas One", serif;
+    height: 50px;
+    width: 350px;
+    border: 2px solid #2F1305;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 18px;
+    color: #2F1305;
+    font-weight: bold;
+    margin: auto;
+    align-content: center;
+    margin-bottom: 15px;
+}
+
+.password {
+    font-family: "Gravitas One", serif;
+    height: 50px;
+    width: 350px;
+    border: 2px solid #2F1305;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 18px;
+    color: #2F1305;
+    font-weight: bold;
+    margin: auto;
+    align-content: center;
+    margin-bottom: 15px;
+}
+
+.enter-button {
+    font-family: "Gravitas One", serif;
+    background-color: #2F1305;
+    height: 50px;
+    width: 350px;
+    color: white;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+    transition: 0.3s;
+}
+
+.enter-button:hover {
+    background-color: #8B4513;
+    transform: scale(1.03);
+}
+
+/* Página menu */
+
+.menu-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 80px;
+}
+
+h1 {
+    font-family: "Gravitas One", serif;
+    font-size: 30px;
+    color: #2F1305;
+    padding-bottom: 30px;
+}
+
+i {
+    font-size: 10px;
+    font-weight: lighter;
+}
+
+.menu-grid {
+    max-width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: auto;
+}
+
+.menu-category {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.menu-category:hover {
+    transform: scale(1.05);
+}
+
+.menu-category img {
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+/* End página menu */
+
+/* Páginas Cardapios */
+
+.cardapio-container {
+    margin: auto;
+    width: 90%;
+    max-width: 700px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    color: #2F1305;
+    margin-bottom: 10px;
+}
+
+.cardapio-type h2 {
+    font-family: "Gravitas One", serif;
+    font-size: 1.8em;
+    margin: 15px 0;
+    padding: 10px;
+    color: #2F1305;
+    border: 2px solid #2F1305;
+    display: inline-block;
+}
+
+.cardapio-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #2F1305;
+}
+
+.item-details h3 {
+    font-family: "Gravitas One", serif;
+    font-size: 15px;
+    color: #A0522D;
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.item-details .price {
+    color: #A0522D;
+    font-weight: normal;
+}
+
+.item-details p {
+    font-family: "Gravitas One", serif;
+    font-size: 11px;
+    color: #2F1305;
+    text-align: left;
+    font-weight: bold;
+    width: 450px;
+}
+
+.order-button {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-button {
+    font-family: "Gravitas One", serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background-color: #2F1305;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+    margin-bottom: 5px;
+}
+
+.delete-button {
+    font-family: "Gravitas One", serif;
+    display: flex;
+    flex-direction: column;
+    background-color: #2F1305;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #8B4513;
+}
+
+.delete-button:hover {
+    background-color: #8B4513;
+}
+
+/* End páginas Cardapios */
+
+/* Botão para abrir o menu */
+.add-button {
+    font-family: "Gravitas One", serif;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2F1305;
+    color: #FFF;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+    transition: transform 0.3s;
+}
+
+.add-button:hover {
+    background-color: #8B4513;
+    transform: scale(1.03);
+}
+
+/* Hidden GUI */
+.hidden {
+    display: none;
+}
+
+.add-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: #BC9C76;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: left;
+}
+
+.add-menu h2 {
+    color: #2F1305;
+    font-family: "Gravitas One", serif;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.add-menu label {
+    font-family: "Gravitas One", serif;
+    color: #2F1305;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.add-menu input,
+.add-menu textarea {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 93%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #2F1305;
+    background-color: #F9EDDD;
+    font-weight: lighter;
+}
+
+.save-button {
+    font-family: "Gravitas One", serif;
+    background-color: #2F1305;
+    color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.cancel-button {
+    font-family: "Gravitas One", serif;
+    background-color: #F6E3CB;
+    color: #2F1305;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+}
+/* End hidden GUI */
+
+/* Exibe o teclado virtual em telas menores */
+@media (max-width: 768px) {
+
+    .display {
+        width: 90%;
+    }
+
+    .container .banner {
+        display: none;
+    }
+
+    .bannerresponsivo {
+        display: flex;
+    }
+
+    .bannerresponsivo img {
+        width: 100%;
+    }
+
+    .interface h1 {
+        font-size: 20px;
+    }
+
+    .interface p {
+        font-size: 15px;
+    }
+
+    .menu-grid img {
+        width: 90%;
+        margin: auto;
+    }
+
+    .cardapio-container {
+        width: 95%;
+    }
+
+    .item-details p {
+        font-size: 10px;
+        width: 200px;
+    }
+
+    .item-details h3 {
+        font-size: 11px;
+        width: 240px;
+    }
+
+    .order-button {
+        max-width: fit-content;
+        font-size: 11px;
+    }
+
+    .add-button {
+        max-width: fit-content;
+        font-size: small;
+    }
+}

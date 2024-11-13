@@ -9,6 +9,6 @@ public class MenuController {
 
 @GetMapping("/")
 public String index(){
-    return "index";
+    return "ProjetoCardapio/index";
 }
 }

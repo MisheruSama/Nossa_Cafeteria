@@ -19,7 +19,7 @@ private CafeDAO cafe;
 
 @GetMapping("/Cafes")
 public String indexCafe(){
-    return "bebida";
+    return "ProjetoCardapio/bebida";
 }
 @GetMapping("/Cafes/api")
 @ResponseBody

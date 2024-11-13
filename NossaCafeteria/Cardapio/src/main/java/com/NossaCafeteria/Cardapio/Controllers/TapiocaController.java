@@ -19,7 +19,7 @@ private TapiocaDAO tapioca;
 
 @GetMapping("/Tapiocas")
 public String indexTapioca(){
-    return "outros";
+    return "ProjetoCardapio/outros";
 }
 @GetMapping("/Tapiocas/api")
 @ResponseBody

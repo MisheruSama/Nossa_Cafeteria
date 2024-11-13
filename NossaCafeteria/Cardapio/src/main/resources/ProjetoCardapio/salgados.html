@@ -30,12 +30,12 @@
             <h2>Salgados</h2>
         </div>
     
-        <div id="salgados-list"></div> <!-- Aqui o JavaScript adicionará os itens dinamicamente -->
+        <div id="salgados-list"></div>
     </div>
 
     <button class="add-button" id="add-button">ADICIONAR</button>
 
-    <!-- Menu Hidden para Adicionar Novo Item -->
+    <!-- Menu para adicionar novos itens -->
     <div id="add-menu" class="add-menu hidden">
         <h2>Adicionar Novo Item</h2>
         <label for="itemNome">Nome:</label>
@@ -56,15 +56,14 @@
 <script>
 
 // Função para buscar dados do backend
-// Função para buscar dados do backend
 function buscarDados() {
-            fetch('/Salgado/api') // Substitua pela URL correta para acessar a lista de salgados
+            fetch('/Salgado/api')
                 .then(response => response.json())
                 .then(data => {
                     const salgadosList = document.getElementById("salgados-list");
                     salgadosList.innerHTML = "";
 
-                    // Itera sobre os dados recebidos e cria os elementos HTML
+                    // Cria os elementos html
                     data.forEach(item => {
                         const cardapioItem = document.createElement("div");
                         cardapioItem.classList.add("cardapio-item");
@@ -101,18 +100,18 @@ function buscarDados() {
                 .catch(error => console.error("Erro ao buscar dados:", error));
         }
 
-        // Exibir o formulário para adicionar novo item
+        // Exibe o formulário para adicionar novo item
         document.getElementById("add-button").addEventListener("click", () => {
             document.getElementById("add-menu").classList.remove("hidden");
         });
 
-        // Cancelar adição de novo item e fechar o formulário
+        // Cancela a adição do item e esconde o formulário
         document.getElementById("cancel-button").addEventListener("click", () => {
             document.getElementById("add-menu").classList.add("hidden");
             clearForm();
         });
 
-        // Salvar novo item
+        // Salva o novo item
         document.getElementById("save-button").addEventListener("click", () => {
             const nome = document.getElementById("itemNome").value;
             const preco = parseFloat(document.getElementById("itemPreco").value);

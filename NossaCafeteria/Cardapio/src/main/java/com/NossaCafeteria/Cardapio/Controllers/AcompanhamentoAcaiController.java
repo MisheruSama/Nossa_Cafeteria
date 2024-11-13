@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.NossaCafeteria.Cardapio.Model.AcompanhamentoAcai;
 import com.NossaCafeteria.Cardapio.DAO.AcompanhamentoAcaiDAO;
+import com.NossaCafeteria.Cardapio.Model.AcompanhamentoAcai;
 
 @RestController
 public class AcompanhamentoAcaiController {
 @Autowired
 private AcompanhamentoAcaiDAO acompanhamento;
 
-@GetMapping("/Acompanhamento")
+
+@GetMapping("/Acompanhamento/api")
 public List<AcompanhamentoAcai> listarAcompanhamentos(){
     return acompanhamento.obterTodos();
 }

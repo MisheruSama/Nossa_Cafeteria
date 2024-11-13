@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.NossaCafeteria.Cardapio.Model.Cafe;
 import com.NossaCafeteria.Cardapio.DAO.CafeDAO;
+import com.NossaCafeteria.Cardapio.Model.Cafe;
 
 @RestController
 public class CafeController {
@@ -17,6 +17,10 @@ public class CafeController {
 private CafeDAO cafe;
 
 @GetMapping("/Cafes")
+public String indexCafe(){
+    return "bebida.html";
+}
+@GetMapping("/Cafes/api")
 public List<Cafe> listarCafes(){
     return cafe.obterTodos();
 }

@@ -14,6 +14,10 @@ public class DocesControllers {
 @Autowired
 private DocesDAO candy;
 
+@GetMapping("/Doces")
+public String indexDoces(){
+    return "doces.html";
+}
 @GetMapping("Doces")
 public List<Doces> listarDoces(){
 return candy.obterTodos();

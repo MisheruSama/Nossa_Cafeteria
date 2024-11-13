@@ -29,12 +29,12 @@ public String salvarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.incluir(bebidasGelada);
     return "redirect:/Bebidas";
 }
-@PostMapping()
+@PostMapping("/Bebidas/excluir")
 public String excluirBebida(@RequestBody Integer id){
     bebida.excluir(id);
     return "redirect:/Bebidas";
 }
-@PostMapping()
+@PostMapping("/Bebidas/alterar")
 public String editarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.alterar(bebidasGelada);
     return "redirect:/Bebidas";

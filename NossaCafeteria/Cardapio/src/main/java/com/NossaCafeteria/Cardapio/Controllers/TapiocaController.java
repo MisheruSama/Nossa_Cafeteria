@@ -16,7 +16,11 @@ public class TapiocaController {
 @Autowired
 private TapiocaDAO tapioca;
 
-@GetMapping("Tapiocas")
+@GetMapping("/Tapiocas")
+public String indexTapioca(){
+    return "outros.html";
+}
+@GetMapping("/Tapiocas/api")
 public List<Tapioca> listarTapiocas(){
     return tapioca.obterTodos();
 }

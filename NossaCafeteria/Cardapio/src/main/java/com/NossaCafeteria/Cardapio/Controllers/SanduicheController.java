@@ -16,6 +16,10 @@ public class SanduicheController {
 private SanduicheDAO sanduiche;
 
 @GetMapping("/Sanduiches")
+public String indexSanduiche(){
+    return "salgados.html";
+}
+@GetMapping("/Sanduiches")
 public List<Sanduiche> listarSanduiches(){
     return sanduiche.obterTodos();
 }

@@ -1,4 +1,4 @@
-package com.NossaCafeteria.Cardapio;
+package com.NossaCafeteria.Cardapio.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

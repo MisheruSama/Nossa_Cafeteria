@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.NossaCafeteria.Cardapio.Model.Salgados;
-import com.NossaCafeteria.Cardapio.SalgadosDAO;
+import com.NossaCafeteria.Cardapio.DAO.SalgadosDAO;
 
 @RestController
 public class SalgadosControllers {

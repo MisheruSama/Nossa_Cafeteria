@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.NossaCafeteria.Cardapio.Cafe;
-import com.NossaCafeteria.Cardapio.CafeDAO;
+import com.NossaCafeteria.Cardapio.Model.Cafe;
+import com.NossaCafeteria.Cardapio.DAO.CafeDAO;
 
 @RestController
 public class CafeController {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.NossaCafeteria.Cardapio.Model.Acai;
-import com.NossaCafeteria.Cardapio.AcaiDAO;
+import com.NossaCafeteria.Cardapio.DAO.AcaiDAO;
 
 
 @RestController
@@ -18,6 +18,11 @@ public class AcaiController {
 private AcaiDAO acai;
 
 @GetMapping("/Acai")
+public String indexAcai(){
+    return "outros.html";
+}
+
+@GetMapping("/Acai/api")
 public List<Acai> listar(){
     return acai.obterTodos();
 }

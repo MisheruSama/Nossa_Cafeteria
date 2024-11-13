@@ -8,16 +8,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.NossaCafeteria.Cardapio.BebidaGelada;
-import com.NossaCafeteria.Cardapio.BebidaGeladaDAO;
+import com.NossaCafeteria.Cardapio.Model.BebidaGelada;
+import com.NossaCafeteria.Cardapio.DAO.BebidaGeladaDAO;
 
 @RestController
 public class BebidaGeladaController {
 @Autowired
 private BebidaGeladaDAO bebida;
 
-
-@GetMapping("Bebidas")
+@GetMapping("/Bebidas")
+public String indexBebida(){
+    return "bebida.html";
+}
+@GetMapping("/Bebidas/api")
 public List<BebidaGelada> listarBebidasAPI(){
     return bebida.obterTodos();
 }

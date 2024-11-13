@@ -1,10 +1,12 @@
-package com.NossaCafeteria.Cardapio;
+package com.NossaCafeteria.Cardapio.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+
+import com.NossaCafeteria.Cardapio.Model.AcompanhamentoAcai;
 
 @Repository
 public class AcompanhamentoAcaiDAO extends GenericDAO<AcompanhamentoAcai,Integer>{  

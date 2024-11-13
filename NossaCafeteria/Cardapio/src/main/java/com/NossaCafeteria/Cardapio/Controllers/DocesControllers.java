@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import com.NossaCafeteria.Cardapio.DocesDAO;
-import com.NossaCafeteria.Cardapio.Doces;
+import com.NossaCafeteria.Cardapio.DAO.DocesDAO;
+import com.NossaCafeteria.Cardapio.Model.Doces;
 
 @RestController
 public class DocesControllers {

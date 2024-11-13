@@ -19,7 +19,7 @@ private SanduicheDAO sanduiche;
 public String indexSanduiche(){
     return "salgados.html";
 }
-@GetMapping("/Sanduiches")
+@GetMapping("/Sanduiches/api")
 public List<Sanduiche> listarSanduiches(){
     return sanduiche.obterTodos();
 }

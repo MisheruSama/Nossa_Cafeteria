@@ -20,7 +20,7 @@ private AcaiDAO acai;
 
 @GetMapping("/Acai")
 public String indexAcai(){
-    return "outros";
+    return "outros.html";
 }
 
 @GetMapping("/Acai/api")

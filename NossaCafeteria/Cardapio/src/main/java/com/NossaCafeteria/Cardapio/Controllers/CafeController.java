@@ -17,7 +17,7 @@ private CafeDAO cafe;
 
 @GetMapping("/Cafes")
 public String indexCafe(){
-    return "bebida";
+    return "bebida.html";
 }
 @GetMapping("/Cafes/api")
 public List<Cafe> listarCafes(){

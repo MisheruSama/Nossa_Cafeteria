@@ -17,7 +17,7 @@ private SanduicheDAO sanduiche;
 
 @GetMapping("/Sanduiches")
 public String indexSanduiche(){
-    return "salgados";
+    return "salgados.html";
 }
 @GetMapping("/Sanduiches/api")
 public List<Sanduiche> listarSanduiches(){

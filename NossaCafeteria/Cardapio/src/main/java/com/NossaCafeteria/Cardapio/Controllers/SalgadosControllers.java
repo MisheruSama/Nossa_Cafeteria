@@ -20,7 +20,7 @@ private SalgadosDAO salgados;
 
 @GetMapping("/Salgado")
 public String indexSalgado(){
-    return "salgados";
+    return "salgados.html";
 }
 
 @GetMapping("/Salgado/api")

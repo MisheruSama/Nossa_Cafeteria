@@ -19,11 +19,6 @@ public class SalgadosControllers {
 @Autowired
 private SalgadosDAO salgados;
 
-@GetMapping("/Salgado")
-public String indexSalgado(){
-    return "salgados";
-}
-
 @GetMapping("/Salgado/api")
 public List<Salgados> listarSalgados(){
     return salgados.obterTodos();

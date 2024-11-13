@@ -1,0 +1,39 @@
+package com.NossaCafeteria.Cardapio.Controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.NossaCafeteria.Cardapio.BebidaGelada;
+import com.NossaCafeteria.Cardapio.BebidaGeladaDAO;
+
+@RestController
+public class BebidaGeladaController {
+@Autowired
+private BebidaGeladaDAO bebida;
+
+
+@GetMapping("Bebidas")
+public List<BebidaGelada> listarBebidasAPI(){
+    return bebida.obterTodos();
+}
+@PostMapping("/Bebidas/salvar")
+public String salvarBebida(@RequestBody BebidaGelada bebidasGelada){
+    bebida.incluir(bebidasGelada);
+    return "redirect:/Bebidas";
+}
+@PostMapping()
+public String excluirBebida(@RequestBody Integer id){
+    bebida.excluir(id);
+    return "redirect:/Bebidas";
+}
+@PostMapping()
+public String editarBebida(@RequestBody BebidaGelada bebidasGelada){
+    bebida.alterar(bebidasGelada);
+    return "redirect:/Bebidas";
+}
+}

@@ -16,7 +16,7 @@ private DocesDAO candy;
 
 @GetMapping("/Doces")
 public String indexDoces(){
-    return "doceddds";
+    return "doce";
 }
 @GetMapping("/Doces/api")
 public List<Doces> listarDoces(){

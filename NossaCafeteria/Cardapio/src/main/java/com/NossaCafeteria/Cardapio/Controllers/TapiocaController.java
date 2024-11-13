@@ -18,7 +18,7 @@ private TapiocaDAO tapioca;
 
 @GetMapping("/Tapiocas")
 public String indexTapioca(){
-    return "outrosbbbb";
+    return "outros";
 }
 @GetMapping("/Tapiocas/api")
 public List<Tapioca> listarTapiocas(){

@@ -7,9 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.NossaCafeteria.Cardapio.Model.Tapioca;
 import com.NossaCafeteria.Cardapio.DAO.TapiocaDAO;
+import com.NossaCafeteria.Cardapio.Model.Tapioca;
 
 @Controller
 public class TapiocaController {
@@ -21,6 +22,7 @@ public String indexTapioca(){
     return "outros";
 }
 @GetMapping("/Tapiocas/api")
+@ResponseBody
 public List<Tapioca> listarTapiocas(){
     return tapioca.obterTodos();
 }

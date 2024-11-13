@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.NossaCafeteria.Cardapio.Model.BebidaGelada;
 import com.NossaCafeteria.Cardapio.DAO.BebidaGeladaDAO;
@@ -21,6 +22,7 @@ public String indexBebida(){
     return "bebida";
 }
 @GetMapping("/Bebidas/api")
+@ResponseBody
 public List<BebidaGelada> listarBebidasAPI(){
     return bebida.obterTodos();
 }

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.NossaCafeteria.Cardapio.Model.AcompanhamentoAcai;
 
 @Repository
-public class AcompanhamentoAcaiDAO extends GenericDAO<AcompanhamentoAcai,Integer>{  
+
+public class AcompanhamentoAcaiDAO extends GenericDAO<AcompanhamentoAcai,Integer>{
     @Override
     public List<AcompanhamentoAcai> obterTodos(){
         List<AcompanhamentoAcai> acompanhamentos = new ArrayList<>();

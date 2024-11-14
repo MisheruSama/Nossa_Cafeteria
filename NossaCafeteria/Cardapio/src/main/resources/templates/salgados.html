@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Função para buscar dados do backend
 function buscarDados() {
-    fetch('/Salgado/api')
+    fetch('/salgados/api')
         .then(response => response.json())
         .then(data => {
             const salgadosList = document.getElementById("salgados-list");
@@ -108,7 +108,7 @@ function buscarDados() {
 
 // Função para excluir um item
 function excluirItem(id) {
-    fetch('/Salgado/excluir', {
+    fetch('/salgados/excluir', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ function editarItem(item) {
         };
 
         // Chama a API para atualizar o item
-        fetch('/Salgado/alterar', {
+        fetch('/salgados/alterar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

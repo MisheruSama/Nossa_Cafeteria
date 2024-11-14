@@ -19,7 +19,7 @@ private BebidaGeladaDAO bebida;
 
 @GetMapping("/Bebidas")
 public String indexBebida(){
-    return "ProjetoCardapio/bebida";
+    return "bebidas";
 }
 @GetMapping("/Bebidas/api")
 @ResponseBody

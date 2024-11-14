@@ -19,7 +19,7 @@ private DocesDAO candy;
 
 @GetMapping("/Doces")
 public String indexDoces(){
-    return "ProjetoCardapio/doce";
+    return "doces";
 }
 @GetMapping("/Doces/api")
 @ResponseBody

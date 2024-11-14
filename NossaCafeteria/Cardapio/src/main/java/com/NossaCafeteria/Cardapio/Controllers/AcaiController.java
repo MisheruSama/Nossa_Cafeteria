@@ -20,7 +20,7 @@ private AcaiDAO acai;
 
 @GetMapping("/Acai")
 public String indexAcai(){
-    return "ProjetoCardapio/outros";
+    return "outros";
 }
 
 @GetMapping("/Acai/api")
@@ -31,7 +31,7 @@ public List<Acai> listar(){
 @PostMapping("/Acai/salvar")
 public String salvarAcai(@RequestBody Acai saveAcai){
    acai.incluir(saveAcai);
-   return "redirect:Acai";
+   return "redirect:/Acai";
 }
 @PostMapping("/Acai/excluir")
 public String exluirAcai(@RequestBody Integer id){

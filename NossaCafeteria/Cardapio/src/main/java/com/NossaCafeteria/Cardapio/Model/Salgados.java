@@ -5,7 +5,7 @@ public class Salgados extends Produto {
     //atributos
     String tipo;
 
-    public Salgados(Integer id, String nome, double preco, String tipo){
+    public Salgados(Integer id, String nome, Double preco, String tipo){
         super(id, nome, preco);
         this.tipo=tipo;
     }

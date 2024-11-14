@@ -17,28 +17,28 @@ public class BebidaGeladaController {
 @Autowired
 private BebidaGeladaDAO bebida;
 
-@GetMapping("/Bebidas")
+@GetMapping("/bebidas")
 public String indexBebida(){
     return "bebidas";
 }
-@GetMapping("/Bebidas/api")
+@GetMapping("/bebidas/api")
 @ResponseBody
 public List<BebidaGelada> listarBebidasAPI(){
     return bebida.obterTodos();
 }
-@PostMapping("/Bebidas/salvar")
+@PostMapping("/bebidas/salvar")
 public String salvarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.incluir(bebidasGelada);
-    return "redirect:/Bebidas";
+    return "redirect:/bebidas";
 }
-@PostMapping("/Bebidas/excluir")
+@PostMapping("/bebidas/excluir")
 public String excluirBebida(@RequestBody Integer id){
     bebida.excluir(id);
-    return "redirect:/Bebidas";
+    return "redirect:/bebidas";
 }
-@PostMapping("/Bebidas/alterar")
+@PostMapping("/bebidas/alterar")
 public String editarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.alterar(bebidasGelada);
-    return "redirect:/Bebidas";
+    return "redirect:/bebidas";
 }
 }

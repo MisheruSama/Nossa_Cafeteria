@@ -17,28 +17,28 @@ public class TapiocaController {
 @Autowired
 private TapiocaDAO tapioca;
 
-@GetMapping("/Tapiocas")
+@GetMapping("/tapiocas")
 public String indexTapioca(){
     return "outros";
 }
-@GetMapping("/Tapiocas/api")
+@GetMapping("/tapiocas/api")
 @ResponseBody
 public List<Tapioca> listarTapiocas(){
     return tapioca.obterTodos();
 }
-@PostMapping("/Tapioca/salvar")
+@PostMapping("/tapioca/salvar")
 public String salvarTapioca(@RequestBody Tapioca tapiocas){
     tapioca.incluir(tapiocas);
-    return "redirect:/Tapioca";
+    return "redirect:/tapioca";
 }
-@PostMapping("/Tapioca/excluir")
+@PostMapping("/tapioca/excluir")
 public String excluir(@RequestBody Integer id){
     tapioca.excluir(id);
-    return "redirect:/Tapioca";
+    return "redirect:/tapioca";
 }
-@PostMapping("/Tapioca/alterar")
+@PostMapping("/tapioca/alterar")
 public String editarTapioca(@RequestBody Tapioca tapiocas){
     tapioca.alterar(tapiocas);
-    return "redirect:/Tapioca";
+    return "redirect:/tapioca";
 }
 }

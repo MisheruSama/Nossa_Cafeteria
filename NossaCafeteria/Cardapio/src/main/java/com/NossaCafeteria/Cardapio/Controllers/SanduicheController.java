@@ -16,28 +16,28 @@ public class SanduicheController {
 @Autowired
 private SanduicheDAO sanduiche;
 
-@GetMapping("/Sanduiches")
+@GetMapping("/sanduiches")
 public String indexSanduiche(){
     return "salgados";
 }
-@GetMapping("/Sanduiches/api")
+@GetMapping("/sanduiches/api")
 @ResponseBody
 public List<Sanduiche> listarSanduiches(){
     return sanduiche.obterTodos();
 }
-@PostMapping("/Sanduiche/salvar")
+@PostMapping("/sanduiches/salvar")
 public String salvar(@RequestBody Sanduiche sanduiches){
     sanduiche.incluir(sanduiches);
-    return "redirect:/Sanduiches";
+    return "redirect:/sanduiches";
 }
-@PostMapping("/Sanduiches/excluir")
+@PostMapping("/sanduiches/excluir")
 public String excluir(@RequestBody Integer id){
     sanduiche.excluir(id);
-    return "redirect:/Sanduiches";
+    return "redirect:/sanduiches";
 }
-@PostMapping("/Sanduiches/alterar")
+@PostMapping("/sanduiches/alterar")
 public String editar(@RequestBody Sanduiche sanduiches){
     sanduiche.alterar(sanduiches);
-    return "redirect:/Sanduiches";
+    return "redirect:/sanduiches";
 }
 }

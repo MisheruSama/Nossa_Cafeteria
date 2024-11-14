@@ -5,7 +5,7 @@ public class Sanduiche extends Produto{
 
     public Sanduiche(){};
 
-    public Sanduiche(Integer id, String nome, double preco, String descricao){
+    public Sanduiche(Integer id, String nome, Double preco, String descricao){
         super(id, nome, preco);
         this.descricao=descricao;
     }

@@ -3,9 +3,9 @@ package com.NossaCafeteria.Cardapio.Model;
 public class Tapioca {
    private Integer id;
     private String sabor;
-    private double preco;
+    private Double preco;
  
-    public Tapioca (Integer id, String sabor, double preco) {
+    public Tapioca (Integer id, String sabor, Double preco) {
       this.id=id;
        this.sabor=sabor;
        this.preco = preco;
@@ -15,13 +15,13 @@ public class Tapioca {
        return sabor;
     }
  
-    public double getPreco() {
+    public Double getPreco() {
        return preco;
     }
     public void setsabor(String sabor){
       this.sabor=sabor;
     }
-    public void setPreco(double preco){
+    public void setPreco(Double preco){
       this.preco=preco;
     }
 

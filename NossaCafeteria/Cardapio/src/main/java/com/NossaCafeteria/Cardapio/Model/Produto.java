@@ -5,11 +5,11 @@ package com.NossaCafeteria.Cardapio.Model;
 public abstract class Produto {
     private Integer id;
     private String nome;
-    private double preco;
+    private Double preco;
 
     public Produto(){}
 
-    public Produto(Integer id, String nome, double preco){
+    public Produto(Integer id, String nome, Double preco){
         this.id=id;
         this.nome=nome;
         this.preco=preco;
@@ -17,13 +17,13 @@ public abstract class Produto {
     public String getnome(){
         return nome;
     }
-    public double getpreco(){
+    public Double getpreco(){
         return preco;
     }
     public void setnome(String nome){
         this.nome=nome;
     }
-    public void setpreco(double preco){
+    public void setpreco(Double preco){
         this.preco=preco;
     }
 

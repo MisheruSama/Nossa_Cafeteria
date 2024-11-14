@@ -3,7 +3,7 @@ package com.NossaCafeteria.Cardapio.Model;
 public class Cafe extends Produto{
     private String tipo;
     
-    public Cafe(Integer id, String nome, double preco, String tipo) {
+    public Cafe(Integer id, String nome, Double preco, String tipo) {
         super(id, nome, preco);
         this.tipo = tipo;
     }

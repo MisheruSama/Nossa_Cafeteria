@@ -18,29 +18,29 @@ public class SalgadosControllers {
 @Autowired
 private SalgadosDAO salgados;
 
-@GetMapping("/Salgado")
+@GetMapping("/salgados")
 public String indexSalgado(){
     return "salgados";
 }
 
-@GetMapping("/Salgado/api")
+@GetMapping("/salgados/api")
 @ResponseBody
 public List<Salgados> listarSalgados(){
     return salgados.obterTodos();
 }
-@PostMapping("/Salgado/salvar")
+@PostMapping("/salgados/salvar")
 public String salvarSalgado(@RequestBody Salgados salgado){
     salgados.incluir(salgado);
-    return "redirect:/Salgado";
+    return "redirect:/salgados";
 }
-@PostMapping("/Salgado/excluir")
+@PostMapping("/salgados/excluir")
 public String excluirSalgado(@RequestBody Integer id){
     salgados.excluir(id);
-    return "redirect:/Salgado";
+    return "redirect:/salgados";
 }
 @PostMapping("/Salgado/alterar")
 public String editarSalgado(@RequestBody Salgados salgado){
     salgados.alterar(salgado);
-    return "redirect:/Salgado";
+    return "redirect:/salgados";
 }
 }

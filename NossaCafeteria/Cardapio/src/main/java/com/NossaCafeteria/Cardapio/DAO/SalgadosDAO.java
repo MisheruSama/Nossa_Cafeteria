@@ -36,7 +36,7 @@ public class SalgadosDAO extends GenericDAO<Salgados,Integer>{
        statement.setString(1, salgados.getnome());
        statement.setDouble(2, salgados.getpreco());
        statement.setString(3, salgados.getTipo());
-       statement.execute();
+       statement.executeUpdate();
        closeConnection(statement);
    } catch (Exception e){
        System.err.println("Erro ao inserir o Salgado no banco de dados");

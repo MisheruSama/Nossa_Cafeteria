@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Nossa Cafeteria</title>
-    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Gravitas+One&family=Pacifico&family=Unlock&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -14,11 +14,11 @@
         <section>
             <div class="container">
                 <div class="banner">
-                    <img src="./src/imagens/Cabeçalho.png">
+                    <img src="/imagens/Cabeçalho.png">
                 </div>
 
                 <div class="bannerresponsivo">
-                    <img src="./src/imagens/CabeçalhoResponsivo.png">
+                    <img src="/imagens/CabeçalhoResponsivo.png">
                 </div>
             </div>
         </section>
@@ -51,7 +51,7 @@
         if (username === '_Mayco' && password === '7980') {
             alert('Login bem-sucedido!');
             // Redirecionar para página de menu
-            window.location.href = 'index.html';
+            window.location.href = '@{/index.html}';
         } else {
             alert('Usuário ou senha incorretos.');
         }

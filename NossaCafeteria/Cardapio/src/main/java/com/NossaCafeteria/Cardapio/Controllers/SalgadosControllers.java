@@ -38,7 +38,7 @@ public String excluirSalgado(@RequestBody Integer id){
     salgados.excluir(id);
     return "redirect:/salgados";
 }
-@PostMapping("/Salgado/alterar")
+@PostMapping("/salgados/alterar")
 public String editarSalgado(@RequestBody Salgados salgado){
     salgados.alterar(salgado);
     return "redirect:/salgados";

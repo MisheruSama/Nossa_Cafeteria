@@ -79,7 +79,7 @@ function buscarDados() {
                 itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
 
                 const itemDescricao = document.createElement("p");
-                itemDescricao.textContent = item.descricao;
+                itemDescricao.textContent = item.tipo;
 
                 const orderButton = document.createElement("div");
                 orderButton.classList.add("order-button");
@@ -130,7 +130,7 @@ function excluirItem(id) {
 function editarItem(item) {
     document.getElementById("itemNome").value = item.nome;
     document.getElementById("itemPreco").value = item.preco;
-    document.getElementById("itemDescricao").value = item.descricao;
+    document.getElementById("itemDescricao").value = item.tipo;
     document.getElementById("add-menu").classList.remove("hidden");
 
     document.getElementById("save-button").onclick = function () {
@@ -138,7 +138,7 @@ function editarItem(item) {
             id: item.id, // Inclui o ID para referenciar o item a ser alterado
             nome: document.getElementById("itemNome").value,
             preco: parseFloat(document.getElementById("itemPreco").value),
-            descricao: document.getElementById("itemDescricao").value
+            tipo: document.getElementById("itemDescricao").value
         };
 
         // Chama a API para atualizar o item
@@ -166,14 +166,14 @@ function editarItem(item) {
     function adicionarNovoItem() {
         const nome = document.getElementById("itemNome").value;
         const preco = parseFloat(document.getElementById("itemPreco").value);
-        const descricao = document.getElementById("itemDescricao").value;
+        const tipo = document.getElementById("itemDescricao").value;
 
         // Validação dos dados do formulário
-        if (nome && !isNaN(preco) && descricao) {
+        if (nome && !isNaN(preco) && tipo) {
             const novoItem = {
                 nome: nome,
                 preco: preco,
-                descricao: descricao
+                tipo: tipo
             };
 
             // Enviar dados ao backend para incluir no banco
@@ -225,9 +225,9 @@ function editarItem(item) {
         document.getElementById("save-button").addEventListener("click", () => {
             const nome = document.getElementById("itemNome").value;
             const preco = parseFloat(document.getElementById("itemPreco").value);
-            const descricao = document.getElementById("itemDescricao").value;
+            const tipo = document.getElementById("itemDescricao").value;
 
-            if (nome && !isNaN(preco) && descricao) {
+            if (nome && !isNaN(preco) && tipo) {
                 // Cria um novo cardapioItem com os dados do formulário
                 const salgadosList = document.getElementById("salgados-list");
 

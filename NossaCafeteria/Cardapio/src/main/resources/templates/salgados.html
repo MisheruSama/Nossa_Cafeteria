@@ -48,6 +48,7 @@
         <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
         
         <button id="save-button" class="save-button">SALVAR</button>
+        <button id="alt-button" class="save-button hidden">ALTERAR</button>
         <button id="cancel-button" class="cancel-button">CANCELAR</button>
     </div>
 
@@ -132,8 +133,10 @@ function editarItem(item) {
     document.getElementById("itemPreco").value = item.preco;
     document.getElementById("itemDescricao").value = item.tipo;
     document.getElementById("add-menu").classList.remove("hidden");
+    document.getElementById("alt-button").classList.remove("hidden");
+    document.getElementById("save-button").classList.add("hidden");
 
-    document.getElementById("save-button").onclick = function () {
+    document.getElementById("alt-button").onclick = function () {
         const updatedItem = {
             id: item.id, // Inclui o ID para referenciar o item a ser alterado
             nome: document.getElementById("itemNome").value,

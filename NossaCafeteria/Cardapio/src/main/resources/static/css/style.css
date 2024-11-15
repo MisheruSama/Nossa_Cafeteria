@@ -4,7 +4,7 @@
 }
 
 body{
-    background-image:url(/NossaCafeteria/Cardapio/src/main/resources/ProjetoCardapio/src/imagens/Background.png);
+    background-image:url(/imagens/Background.png);
     background-size: cover;
     margin-bottom: 100px;
 }

@@ -18,7 +18,7 @@ public class SalgadosControllers {
 @Autowired
 private SalgadosDAO salgados;
 
-@GetMapping("/salgados")
+@GetMapping("/salgados.html")
 public String indexSalgado(){
     return "salgados";
 }
@@ -31,16 +31,16 @@ public List<Salgados> listarSalgados(){
 @PostMapping("/salgados/salvar")
 public String salvarSalgado(@RequestBody Salgados salgado){
     salgados.incluir(salgado);
-    return "redirect:/salgados";
+    return "redirect:/salgados.html";
 }
 @PostMapping("/salgados/excluir")
 public String excluirSalgado(@RequestBody Integer id){
     salgados.excluir(id);
-    return "redirect:/salgados";
+    return "redirect:/salgados.html";
 }
 @PostMapping("/salgados/alterar")
 public String editarSalgado(@RequestBody Salgados salgado){
     salgados.alterar(salgado);
-    return "redirect:/salgados";
+    return "redirect:/salgados.html";
 }
 }

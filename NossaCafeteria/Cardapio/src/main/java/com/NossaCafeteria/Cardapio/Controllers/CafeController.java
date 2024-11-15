@@ -17,7 +17,7 @@ public class CafeController {
 @Autowired
 private CafeDAO cafe;
 
-@GetMapping("/cafes")
+@GetMapping("/cafe.html")
 public String indexCafe(){
     return "bebidas";
 }
@@ -29,16 +29,16 @@ public List<Cafe> listarCafes(){
 @PostMapping("/cafes/salvar")
 public String salvarCafe(@RequestBody Cafe cafes){
     cafe.incluir(cafes);
-    return "redirect:/bebidas";
+    return "redirect:/bebidas.html";
 }
 @PostMapping("/cafes/excluir")
 public String excluirCafe(@RequestBody Integer id){
     cafe.excluir(id);
-    return "redirect:/bebidas";
+    return "redirect:/bebidas.html";
 }
 @PostMapping("/cafes/alterar")
 public String editarCafe(@RequestBody Cafe cafes){
     cafe.alterar(cafes);
-    return "redirect:/bebidas";
+    return "redirect:/bebidas.html";
 }
 }

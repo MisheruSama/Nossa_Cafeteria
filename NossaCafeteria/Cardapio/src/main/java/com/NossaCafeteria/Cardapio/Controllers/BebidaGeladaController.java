@@ -17,7 +17,7 @@ public class BebidaGeladaController {
 @Autowired
 private BebidaGeladaDAO bebida;
 
-@GetMapping("/bebidas")
+@GetMapping("/bebidas.html")
 public String indexBebida(){
     return "bebidas";
 }
@@ -29,16 +29,16 @@ public List<BebidaGelada> listarBebidasAPI(){
 @PostMapping("/bebidas/salvar")
 public String salvarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.incluir(bebidasGelada);
-    return "redirect:/bebidas";
+    return "redirect:/bebidas.html";
 }
 @PostMapping("/bebidas/excluir")
 public String excluirBebida(@RequestBody Integer id){
     bebida.excluir(id);
-    return "redirect:/bebidas";
+    return "redirect:/bebidas.html";
 }
 @PostMapping("/bebidas/alterar")
 public String editarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.alterar(bebidasGelada);
-    return "redirect:/bebidas";
+    return "redirect:/bebidas.html";
 }
 }

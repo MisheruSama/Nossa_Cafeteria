@@ -18,12 +18,12 @@ public class AcaiController {
 @Autowired
 private AcaiDAO acai;
 
-@GetMapping("/outros")
+@GetMapping("/outros.html")
 public String indexAcai(){
     return "outros";
 }
 
-@GetMapping("/Acai/api")
+@GetMapping("/outros/api")
 @ResponseBody
 public List<Acai> listar(){
     return acai.obterTodos();
@@ -31,12 +31,12 @@ public List<Acai> listar(){
 @PostMapping("/outros/salvar")
 public String salvarAcai(@RequestBody Acai saveAcai){
    acai.incluir(saveAcai);
-   return "redirect:/outros";
+   return "redirect:/outros.html";
 }
 @PostMapping("/outros/excluir")
 public String exluirAcai(@RequestBody Integer id){
     acai.excluir(id);
-        return "redirect:/outros";
+        return "redirect:/outros.html";
 }
 @PostMapping("/outros/alterar")
 public String editarAcai(@RequestBody Acai editAcai){

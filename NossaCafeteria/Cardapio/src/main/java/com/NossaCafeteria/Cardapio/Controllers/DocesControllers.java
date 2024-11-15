@@ -17,7 +17,7 @@ public class DocesControllers {
 @Autowired
 private DocesDAO candy;
 
-@GetMapping("/doces")
+@GetMapping("/doces.html")
 public String indexDoces(){
     return "doces";
 }
@@ -29,16 +29,16 @@ return candy.obterTodos();
 @PostMapping("/doces/salvar")
 public String salvarDoces(@RequestBody Doces doce){
     candy.incluir(doce);
-    return "redirect:/doces";
+    return "redirect:/doces.html";
 }
 @PostMapping("/doces/excluir")
 public String excluir(@RequestBody Integer id){
     candy.excluir(id);
-    return "redirect:/doces";
+    return "redirect:/doces.html";
 }
 @PostMapping("/doces/alterar")
 public String editarDoces(@RequestBody Doces doce){
     candy.alterar(doce);
-    return "redirect:/doces";
+    return "redirect:/doces.html";
 }
 }

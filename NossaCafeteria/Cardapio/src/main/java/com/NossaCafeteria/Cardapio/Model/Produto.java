@@ -6,6 +6,7 @@ public abstract class Produto {
     private Integer id;
     private String nome;
     private Double preco;
+    
 
     public Produto(){}
 

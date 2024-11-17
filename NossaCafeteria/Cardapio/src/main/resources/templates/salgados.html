@@ -55,19 +55,6 @@
         <label for="itemDescricao">Descrição:</label>
         <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
         
-<<<<<<< HEAD
-        <label for="itemDestino">Lista:</label>
-        <select id="itemDestino">
-            <option value="salgados-list">Salgados</option>
-            <option value="sanduiches-list">Sanduíches</option>
-=======
-        <label for="itemQual">Tipo:</label>
-        <select id="itemQual" placeholder="Selecione o tipo de item">
-            <option value="Salgado">Salgados</option>
-            <option value="Sanduiche">Sanduiche</option>
->>>>>>> 58a2d96862de7ba2ca442826c09012a687f71098
-        </select>
-        
         <button id="save-button" class="save-button">SALVAR</button>
         <button id="cancel-button" class="cancel-button">CANCELAR</button>
     </div>
@@ -75,129 +62,234 @@
 </body>
 
 <script>
-    // Função para carregar os itens de ambas as listas ao carregar a página
-    function carregarDados() {
-        const endpoints = [
-            { api: "/salgados/api", listId: "salgados-list" },
-            { api: "/sanduiches/api", listId: "sanduiches-list" }
-        ];
+    // Chama a função para buscar dados ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    buscarDados();
+});
 
-        endpoints.forEach(({ api, listId }) => {
-            fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById(listId);
-                    container.innerHTML = "";
+// Função para buscar dados do backend
+// Buscar os salgados
+// Função genérica para buscar dados do backend
+function buscarDados(apiUrl, containerId) {
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
 
-                    data.forEach(item => {
-                        adicionarItemNaLista(container, item);
-                    });
-                })
-                .catch(error => console.error(`Erro ao carregar itens de ${api}:`, error));
-        });
-    }
+            data.forEach(item => {
+                const cardapioItem = document.createElement("div");
+                cardapioItem.classList.add("cardapio-item");
 
-    // Função para criar um item na lista
-    function adicionarItemNaLista(container, item) {
-        const cardapioItem = document.createElement("div");
-        cardapioItem.classList.add("cardapio-item");
+                const itemDetails = document.createElement("div");
+                itemDetails.classList.add("item-details");
 
-        const itemDetails = document.createElement("div");
-        itemDetails.classList.add("item-details");
+                const itemNome = document.createElement("h3");
+                itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
 
-        const itemNome = document.createElement("h3");
-        itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
+                const itemDescricao = document.createElement("p");
+                itemDescricao.textContent = item.tipo;
 
-        const itemDescricao = document.createElement("p");
-        itemDescricao.textContent = item.tipo;
+                const orderButton = document.createElement("div");
+                orderButton.classList.add("order-button");
 
-        const orderButton = document.createElement("div");
-        orderButton.classList.add("order-button");
+                const editButton = document.createElement("button");
+                editButton.classList.add("edit-button");
+                editButton.textContent = "EDITAR";
+                editButton.addEventListener("click", () => editarItem(item));
 
-        const editButton = document.createElement("button");
-        editButton.classList.add("edit-button");
-        editButton.textContent = "EDITAR";
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("delete-button");
+                deleteButton.textContent = "EXCLUIR";
+                deleteButton.addEventListener("click", () => excluirItem(apiUrl.replace('/api', '/excluir'), item.id));
 
-        const deleteButton = document.createElement("button");
-        deleteButton.classList.add("delete-button");
-        deleteButton.textContent = "EXCLUIR";
+                itemDetails.appendChild(itemNome);
+                itemDetails.appendChild(itemDescricao);
+                cardapioItem.appendChild(itemDetails);
+                cardapioItem.appendChild(orderButton);
+                orderButton.appendChild(editButton);
+                orderButton.appendChild(deleteButton);
+                container.appendChild(cardapioItem);
+            });
+        })
+        .catch(error => console.error(`Erro ao buscar dados de ${apiUrl}:`, error));
+}
 
-        // Adiciona eventos aos botões
-        editButton.addEventListener("click", () => editarItem(item));
-        deleteButton.addEventListener("click", () => excluirItem(item));
+// Função para excluir um item
+function excluirItem(apiUrl, id) {
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }), // Certifique-se de que o backend espera um objeto com chave "id"
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Item excluído com sucesso.");
+            // Recarregar dados após exclusão
+            carregarTodosDados();
+        } else {
+            console.error("Erro ao excluir o item:", response.statusText);
+        }
+    })
+    .catch(error => console.error("Erro ao excluir o item:", error));
+}
 
-        itemDetails.appendChild(itemNome);
-        itemDetails.appendChild(itemDescricao);
-        orderButton.appendChild(editButton);
-        orderButton.appendChild(deleteButton);
-        cardapioItem.appendChild(itemDetails);
-        cardapioItem.appendChild(orderButton);
-        container.appendChild(cardapioItem);
-    }
+// Função para carregar dados de todas as categorias
+function carregarTodosDados() {
+    buscarDados('/salgados/api', 'salgados-list');
+    buscarDados('/sanduiches/api', 'sanduiches-list');
+}
 
-    // Função para excluir um item
-    function excluirItem(item) {
-        fetch("/excluir", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: item.id })
+// Chama a função para buscar dados ao carregar a página
+document.addEventListener("DOMContentLoaded", carregarTodosDados);
+
+// Função para preencher o formulário com dados do item a ser editado
+function editarItem(item) {
+    document.getElementById("itemNome").value = item.nome;
+    document.getElementById("itemPreco").value = item.preco;
+    document.getElementById("itemDescricao").value = item.tipo;
+    document.getElementById("add-menu").classList.remove("hidden");
+    document.getElementById("alt-button").classList.remove("hidden");
+    document.getElementById("save-button").classList.add("hidden");
+
+    document.getElementById("alt-button").onclick = function () {
+        const updatedItem = {
+            id: item.id, // Inclui o ID para referenciar o item a ser alterado
+            nome: document.getElementById("itemNome").value,
+            preco: parseFloat(document.getElementById("itemPreco").value),
+            tipo: document.getElementById("itemDescricao").value
+        };
+
+        // Chama a API para atualizar o item
+        fetch('/salgados/alterar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedItem),
         })
         .then(response => {
             if (response.ok) {
-                alert("Item excluído com sucesso.");
-                carregarDados();
+                alert("Item atualizado com sucesso.");
+                document.getElementById("add-menu").classList.add("hidden");
+                clearForm();
+                buscarDados(); // Atualiza a lista de salgados
             } else {
-                console.error("Erro ao excluir o item:", response.statusText);
+                console.error("Erro ao atualizar o item:", response.statusText);
             }
         })
-        .catch(error => console.error("Erro ao excluir o item:", error));
-    }
-
-    // Função para adicionar novo item ao backend
+        .catch(error => console.error("Erro ao atualizar o item:", error));
+    };
+}
+         // Adicionar um item usando o formulário
     function adicionarNovoItem() {
         const nome = document.getElementById("itemNome").value;
         const preco = parseFloat(document.getElementById("itemPreco").value);
-        const descricao = document.getElementById("itemDescricao").value;
-        const destino = document.getElementById("itemDestino").value;
-        const apiEndpoint = destino === "salgados-list" ? "/salgados/salvar" : "/sanduiches/salvar";
+        const tipo = document.getElementById("itemDescricao").value;
 
-        if (nome && !isNaN(preco) && descricao) {
-            fetch(apiEndpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nome, preco, tipo: descricao })
+        // Validação dos dados do formulário
+        if (nome && !isNaN(preco) && tipo) {
+            const novoItem = {
+                nome: nome,
+                preco: preco,
+                tipo: tipo
+            };
+
+            // Enviar dados ao backend para incluir no banco
+            fetch('/salgados/salvar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(novoItem),
             })
             .then(response => {
                 if (response.ok) {
                     alert("Item adicionado com sucesso.");
                     document.getElementById("add-menu").classList.add("hidden");
-                    carregarDados();
+                    clearForm();
+                    buscarDados(); // Atualiza a lista de salgados
                 } else {
                     console.error("Erro ao adicionar o item:", response.statusText);
                 }
             })
             .catch(error => console.error("Erro ao adicionar o item:", error));
         } else {
-            alert("Preencha todos os campos corretamente.");
+            alert("Por favor, preencha todos os campos obrigatórios.");
         }
     }
 
-    // Configuração de eventos para os botões
+    // Evento do botão "Salvar" para adicionar novo item
+    document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+
+    // Função para limpar o formulário
+    function clearForm() {
+        document.getElementById("itemNome").value = "";
+        document.getElementById("itemPreco").value = "";
+        document.getElementById("itemDescricao").value = "";
+    }
+
+    // Exibir o formulário para adicionar novo item
     document.getElementById("add-button").addEventListener("click", () => {
         document.getElementById("add-menu").classList.remove("hidden");
     });
 
+    // Cancelar adição de novo item e fechar o formulário
     document.getElementById("cancel-button").addEventListener("click", () => {
         document.getElementById("add-menu").classList.add("hidden");
-        document.getElementById("itemNome").value = "";
-        document.getElementById("itemPreco").value = "";
-        document.getElementById("itemDescricao").value = "";
-        document.getElementById("itemDestino").value = "salgados-list";
+        clearForm();
     });
 
-    document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+        // Salvar novo item
+        document.getElementById("save-button").addEventListener("click", () => {
+            const nome = document.getElementById("itemNome").value;
+            const preco = parseFloat(document.getElementById("itemPreco").value);
+            const tipo = document.getElementById("itemDescricao").value;
 
-    // Carrega os dados ao carregar a página
-    document.addEventListener("DOMContentLoaded", carregarDados);
+            if (nome && !isNaN(preco) && tipo) {
+                // Cria um novo cardapioItem com os dados do formulário
+                const salgadosList = document.getElementById("salgados-list");
+
+                const cardapioItem = document.createElement("div");
+                cardapioItem.classList.add("cardapio-item");
+
+                const itemDetails = document.createElement("div");
+                itemDetails.classList.add("item-details");
+
+                const itemNome = document.createElement("h3");
+                itemNome.innerHTML = `${nome} <span class="price">R$ ${preco.toFixed(2)}</span>`;
+
+                const itemDescricao = document.createElement("p");
+                itemDescricao.textContent = descricao;
+
+                const orderButton = document.createElement("div");
+                orderButton.classList.add("order-button");
+
+                const editButton = document.createElement("button");
+                editButton.classList.add("edit-button");
+                editButton.textContent = "EDITAR";
+
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("delete-button");
+                deleteButton.textContent = "EXCLUIR";
+
+                itemDetails.appendChild(itemNome);
+                itemDetails.appendChild(itemDescricao);
+                cardapioItem.appendChild(itemDetails)
+                cardapioItem.appendChild(orderButton)
+                orderButton.appendChild(editButton);
+                orderButton.appendChild(deleteButton);
+                salgadosList.appendChild(cardapioItem);
+
+                // Fecha o menu e limpa o formulário
+                document.getElementById("add-menu").classList.add("hidden");
+                clearForm();
+            } else {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+            }
+        });
 </script>
+
 </html>

@@ -29,7 +29,7 @@
         <div class="cardapio-type">
             <h2>Salgados</h2>
         </div>
-    
+
         <div id="salgados-list"></div>
     </div>
 
@@ -37,7 +37,7 @@
         <div class="cardapio-type">
             <h2>Sanduíches</h2>
         </div>
-    
+
         <div id="sanduiches-list"></div>
     </div>
 
@@ -55,181 +55,142 @@
         <label for="itemDescricao">Descrição:</label>
         <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
         
-        <label for="itemQual">Tipo:</label>
-        <select id="itemQual" placeholder="Selecione o tipo de item">
-            <option value="Salgado">Salgado</option>
-            <option value="Sanduiche">Sanduiche</option>
+        <label for="itemDestino">Lista:</label>
+        <select id="itemDestino">
+            <option value="salgados-list">Salgados</option>
+            <option value="sanduiches-list">Sanduíches</option>
         </select>
         
         <button id="save-button" class="save-button">SALVAR</button>
-        <button id="alt-button" class="save-button hidden">ALTERAR</button>
         <button id="cancel-button" class="cancel-button">CANCELAR</button>
     </div>
 
 </body>
 
 <script>
+    // Função para carregar os itens de ambas as listas ao carregar a página
+    function carregarDados() {
+        const endpoints = [
+            { api: "/salgados/api", listId: "salgados-list" },
+            { api: "/sanduiches/api", listId: "sanduiches-list" }
+        ];
 
-// Função para buscar dados
-function buscarDados(apiUrl, containerId) {
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const container = document.getElementById(containerId);
-            container.innerHTML = "";
+        endpoints.forEach(({ api, listId }) => {
+            fetch(api)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById(listId);
+                    container.innerHTML = "";
 
-            data.forEach(item => {
-                const cardapioItem = document.createElement("div");
-                cardapioItem.classList.add("cardapio-item");
-
-                const itemDetails = document.createElement("div");
-                itemDetails.classList.add("item-details");
-
-                const itemNome = document.createElement("h3");
-                itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
-
-                const itemDescricao = document.createElement("p");
-                itemDescricao.textContent = item.tipo;
-
-                const orderButton = document.createElement("div");
-                orderButton.classList.add("order-button");
-
-                const editButton = document.createElement("button");
-                editButton.classList.add("edit-button");
-                editButton.textContent = "EDITAR";
-                editButton.addEventListener("click", () => editarItem(apiUrl, item));
-
-                const deleteButton = document.createElement("button");
-                deleteButton.classList.add("delete-button");
-                deleteButton.textContent = "EXCLUIR";
-                deleteButton.addEventListener("click", () => excluirItem(apiUrl.replace('/api', '/excluir'), item.id, containerId));
-
-                itemDetails.appendChild(itemNome);
-                itemDetails.appendChild(itemDescricao);
-                cardapioItem.appendChild(itemDetails);
-                cardapioItem.appendChild(orderButton);
-                orderButton.appendChild(editButton);
-                orderButton.appendChild(deleteButton);
-                container.appendChild(cardapioItem);
-            });
-        })
-        .catch(error => console.error(`Erro ao buscar dados de ${apiUrl}:`, error));
-}
-
-// Função para excluir um item
-function excluirItem(apiUrl, id, containerId) {
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id }),
-    })
-    .then(response => {
-        if (response.ok) {
-            alert("Item excluído com sucesso.");
-            buscarDados(apiUrl.replace('/excluir', '/api'), containerId);
-        } else {
-            console.error("Erro ao excluir o item:", response.statusText);
-        }
-    })
-    .catch(error => console.error("Erro ao excluir o item:", error));
-}
-
-// Função para carregar todos os dados
-function carregarTodosDados() {
-    buscarDados('/salgados/api', 'salgados-list');
-    buscarDados('/sanduiches/api', 'sanduiches-list');
-}
-
-// Função para adicionar ou editar um item
-function adicionarOuEditarItem(apiUrl, method, data) {
-    fetch(apiUrl, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => {
-        if (response.ok) {
-            alert(method === 'POST' ? "Item adicionado com sucesso." : "Item atualizado com sucesso.");
-            document.getElementById("add-menu").classList.add("hidden");
-            clearForm();
-            carregarTodosDados();
-        } else {
-            console.error("Erro ao adicionar/editar o item:", response.statusText);
-        }
-    })
-    .catch(error => console.error("Erro ao adicionar/editar o item:", error));
-}
-
-// Função para editar um item
-function editarItem(apiUrl, item) {
-    document.getElementById("itemNome").value = item.nome;
-    document.getElementById("itemPreco").value = item.preco;
-    document.getElementById("itemDescricao").value = item.tipo;
-    document.getElementById("itemQual").value = apiUrl.includes("salgados") ? "salgados" : "sanduiches";
-    document.getElementById("add-menu").classList.remove("hidden");
-    document.getElementById("alt-button").classList.remove("hidden");
-    document.getElementById("save-button").classList.add("hidden");
-
-    document.getElementById("alt-button").onclick = function () {
-        const categoria = document.getElementById("itemQual").value;
-        const updatedItem = {
-            id: item.id,
-            nome: document.getElementById("itemNome").value,
-            preco: parseFloat(document.getElementById("itemPreco").value),
-            tipo: document.getElementById("itemDescricao").value,
-        };
-
-        adicionarOuEditarItem(`/${categoria}/alterar`, 'POST', updatedItem);
-    };
-}
-
-// Função para adicionar um novo item
-function adicionarNovoItem() {
-    const nome = document.getElementById("itemNome").value;
-    const preco = parseFloat(document.getElementById("itemPreco").value);
-    const tipo = document.getElementById("itemDescricao").value;
-    const categoria = document.getElementById("itemQual").value;
-
-    if (nome && !isNaN(preco) && tipo && categoria) {
-        const novoItem = {
-            nome: nome,
-            preco: preco,
-            tipo: tipo,
-        };
-
-        adicionarOuEditarItem(`/${categoria}/salvar`, 'POST', novoItem);
-    } else {
-        alert("Por favor, preencha todos os campos obrigatórios.");
+                    data.forEach(item => {
+                        adicionarItemNaLista(container, item);
+                    });
+                })
+                .catch(error => console.error(`Erro ao carregar itens de ${api}:`, error));
+        });
     }
-}
 
-// Configuração dos botões
-document.getElementById("add-button").addEventListener("click", () => {
-    document.getElementById("add-menu").classList.remove("hidden");
-});
+    // Função para criar um item na lista
+    function adicionarItemNaLista(container, item) {
+        const cardapioItem = document.createElement("div");
+        cardapioItem.classList.add("cardapio-item");
 
-document.getElementById("cancel-button").addEventListener("click", () => {
-    document.getElementById("add-menu").classList.add("hidden");
-    clearForm();
-});
+        const itemDetails = document.createElement("div");
+        itemDetails.classList.add("item-details");
 
-document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+        const itemNome = document.createElement("h3");
+        itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
 
-// Função para limpar o formulário
-function clearForm() {
-    document.getElementById("itemNome").value = "";
-    document.getElementById("itemPreco").value = "";
-    document.getElementById("itemDescricao").value = "";
-    document.getElementById("itemQual").value = "salgados";
-}
+        const itemDescricao = document.createElement("p");
+        itemDescricao.textContent = item.tipo;
 
-// Carregar dados ao carregar a página
-document.addEventListener("DOMContentLoaded", carregarTodosDados);
+        const orderButton = document.createElement("div");
+        orderButton.classList.add("order-button");
 
+        const editButton = document.createElement("button");
+        editButton.classList.add("edit-button");
+        editButton.textContent = "EDITAR";
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete-button");
+        deleteButton.textContent = "EXCLUIR";
+
+        // Adiciona eventos aos botões
+        editButton.addEventListener("click", () => editarItem(item));
+        deleteButton.addEventListener("click", () => excluirItem(item));
+
+        itemDetails.appendChild(itemNome);
+        itemDetails.appendChild(itemDescricao);
+        orderButton.appendChild(editButton);
+        orderButton.appendChild(deleteButton);
+        cardapioItem.appendChild(itemDetails);
+        cardapioItem.appendChild(orderButton);
+        container.appendChild(cardapioItem);
+    }
+
+    // Função para excluir um item
+    function excluirItem(item) {
+        fetch("/excluir", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: item.id })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Item excluído com sucesso.");
+                carregarDados();
+            } else {
+                console.error("Erro ao excluir o item:", response.statusText);
+            }
+        })
+        .catch(error => console.error("Erro ao excluir o item:", error));
+    }
+
+    // Função para adicionar novo item ao backend
+    function adicionarNovoItem() {
+        const nome = document.getElementById("itemNome").value;
+        const preco = parseFloat(document.getElementById("itemPreco").value);
+        const descricao = document.getElementById("itemDescricao").value;
+        const destino = document.getElementById("itemDestino").value;
+        const apiEndpoint = destino === "salgados-list" ? "/salgados/salvar" : "/sanduiches/salvar";
+
+        if (nome && !isNaN(preco) && descricao) {
+            fetch(apiEndpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nome, preco, tipo: descricao })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Item adicionado com sucesso.");
+                    document.getElementById("add-menu").classList.add("hidden");
+                    carregarDados();
+                } else {
+                    console.error("Erro ao adicionar o item:", response.statusText);
+                }
+            })
+            .catch(error => console.error("Erro ao adicionar o item:", error));
+        } else {
+            alert("Preencha todos os campos corretamente.");
+        }
+    }
+
+    // Configuração de eventos para os botões
+    document.getElementById("add-button").addEventListener("click", () => {
+        document.getElementById("add-menu").classList.remove("hidden");
+    });
+
+    document.getElementById("cancel-button").addEventListener("click", () => {
+        document.getElementById("add-menu").classList.add("hidden");
+        document.getElementById("itemNome").value = "";
+        document.getElementById("itemPreco").value = "";
+        document.getElementById("itemDescricao").value = "";
+        document.getElementById("itemDestino").value = "salgados-list";
+    });
+
+    document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+
+    // Carrega os dados ao carregar a página
+    document.addEventListener("DOMContentLoaded", carregarDados);
 </script>
-
 </html>

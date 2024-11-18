@@ -28,16 +28,16 @@ public List<Sanduiche> listarSanduiches(){
 @PostMapping("/sanduiches/salvar")
 public String salvar(@RequestBody Sanduiche sanduiches){
     sanduiche.incluir(sanduiches);
-    return "redirect:/sanduiches";
+    return "redirect:/salgados.html";
 }
 @PostMapping("/sanduiches/excluir")
 public String excluir(@RequestBody Integer id){
     sanduiche.excluir(id);
-    return "redirect:/sanduiches";
+    return "redirect:/salgados.html";
 }
 @PostMapping("/sanduiches/alterar")
 public String editar(@RequestBody Sanduiche sanduiches){
     sanduiche.alterar(sanduiches);
-    return "redirect:/sanduiches";
+    return "redirect:/salgados.html";
 }
 }

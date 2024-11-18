@@ -40,34 +40,33 @@
         <h2>Adicionar Novo Item</h2>
         <label for="itemNome">Nome:</label>
         <input type="text" id="itemNome" placeholder="Digite o nome do item" required>
-        
+
         <label for="itemPreco">Preço:</label>
         <input type="number" id="itemPreco" placeholder="Digite o preço do item" step="0.01" required>
-        
+
         <label for="itemDescricao">Descrição:</label>
         <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
 
         <button id="save-button" class="save-button">SALVAR</button>
+        <button id="alt-button" class="save-button hidden">ALTERAR</button>
         <button id="cancel-button" class="cancel-button">CANCELAR</button>
     </div>
 
 </body>
 
 <script>
-    // Chama a função para buscar dados ao carregar a página
+
+// Chama a função para buscar dados ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
     buscarDados();
 });
-
 // Função para buscar dados do backend
-// Buscar os salgados
-// Função genérica para buscar dados do backend
-function buscarDados(apiUrl, containerId) {
-    fetch(apiUrl)
+function buscarDados() {
+    fetch('/salgados/api')
         .then(response => response.json())
         .then(data => {
-            const container = document.getElementById(containerId);
-            container.innerHTML = "";
+            const salgadosList = document.getElementById("salgados-list");
+            salgadosList.innerHTML = "";
 
             data.forEach(item => {
                 const cardapioItem = document.createElement("div");
@@ -93,7 +92,7 @@ function buscarDados(apiUrl, containerId) {
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("delete-button");
                 deleteButton.textContent = "EXCLUIR";
-                deleteButton.addEventListener("click", () => excluirItem(apiUrl.replace('/api', '/excluir'), item.id));
+                deleteButton.addEventListener("click", () => excluirItem(item.id));
 
                 itemDetails.appendChild(itemNome);
                 itemDetails.appendChild(itemDescricao);
@@ -101,41 +100,31 @@ function buscarDados(apiUrl, containerId) {
                 cardapioItem.appendChild(orderButton);
                 orderButton.appendChild(editButton);
                 orderButton.appendChild(deleteButton);
-                container.appendChild(cardapioItem);
+                salgadosList.appendChild(cardapioItem);
             });
         })
-        .catch(error => console.error(`Erro ao buscar dados de ${apiUrl}:`, error));
+        .catch(error => console.error("Erro ao buscar dados:", error));
 }
 
 // Função para excluir um item
-function excluirItem(apiUrl, id) {
-    fetch(apiUrl, {
+function excluirItem(id) {
+    fetch('/salgados/excluir', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id }), // Certifique-se de que o backend espera um objeto com chave "id"
+        body: JSON.stringify(id),
     })
     .then(response => {
         if (response.ok) {
             alert("Item excluído com sucesso.");
-            // Recarregar dados após exclusão
-            carregarTodosDados();
+            buscarDados(); // Atualiza a lista de salgados
         } else {
             console.error("Erro ao excluir o item:", response.statusText);
         }
     })
     .catch(error => console.error("Erro ao excluir o item:", error));
 }
-
-// Função para carregar dados de todas as categorias
-function carregarTodosDados() {
-    buscarDados('/salgados/api', 'salgados-list');
-    buscarDados('/sanduiches/api', 'salgados-list');
-}
-
-// Chama a função para buscar dados ao carregar a página
-document.addEventListener("DOMContentLoaded", carregarTodosDados);
 
 // Função para preencher o formulário com dados do item a ser editado
 function editarItem(item) {
@@ -180,7 +169,6 @@ function editarItem(item) {
         const nome = document.getElementById("itemNome").value;
         const preco = parseFloat(document.getElementById("itemPreco").value);
         const tipo = document.getElementById("itemDescricao").value;
-
         // Validação dos dados do formulário
         if (nome && !isNaN(preco) && tipo) {
             const novoItem = {
@@ -188,7 +176,6 @@ function editarItem(item) {
                 preco: preco,
                 tipo: tipo
             };
-
             // Enviar dados ao backend para incluir no banco
             fetch('/salgados/salvar', {
                 method: 'POST',
@@ -227,35 +214,27 @@ function editarItem(item) {
     document.getElementById("add-button").addEventListener("click", () => {
         document.getElementById("add-menu").classList.remove("hidden");
     });
-
     // Cancelar adição de novo item e fechar o formulário
     document.getElementById("cancel-button").addEventListener("click", () => {
         document.getElementById("add-menu").classList.add("hidden");
         clearForm();
     });
-
         // Salvar novo item
         document.getElementById("save-button").addEventListener("click", () => {
             const nome = document.getElementById("itemNome").value;
             const preco = parseFloat(document.getElementById("itemPreco").value);
             const tipo = document.getElementById("itemDescricao").value;
-
             if (nome && !isNaN(preco) && tipo) {
                 // Cria um novo cardapioItem com os dados do formulário
                 const salgadosList = document.getElementById("salgados-list");
-
                 const cardapioItem = document.createElement("div");
                 cardapioItem.classList.add("cardapio-item");
-
                 const itemDetails = document.createElement("div");
                 itemDetails.classList.add("item-details");
-
                 const itemNome = document.createElement("h3");
                 itemNome.innerHTML = `${nome} <span class="price">R$ ${preco.toFixed(2)}</span>`;
-
                 const itemDescricao = document.createElement("p");
                 itemDescricao.textContent = descricao;
-
                 const orderButton = document.createElement("div");
                 orderButton.classList.add("order-button");
 
@@ -282,6 +261,7 @@ function editarItem(item) {
                 alert("Por favor, preencha todos os campos obrigatórios.");
             }
         });
+
 </script>
 
 </html>

@@ -1,19 +1,19 @@
 package com.NossaCafeteria.Cardapio.Model;
 
 public class Sanduiche extends Produto{
-    private String descricao;
+    private String tipo;
 
     public Sanduiche(){};
 
-    public Sanduiche(Integer id, String nome, Double preco, String descricao){
+    public Sanduiche(Integer id, String nome, Double preco, String tipo){
         super(id, nome, preco);
-        this.descricao=descricao;
+        this.tipo=tipo;
     }
-    public String getdescricao(){
-        return descricao;
+    public String gettipo(){
+        return tipo;
     }
-    public void setdescricao(String descricao){
-        this.descricao=descricao;
+    public void settipo(String tipo){
+        this.tipo=tipo;
     }
     
 }

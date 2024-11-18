@@ -33,14 +33,6 @@
         <div id="salgados-list"></div>
     </div>
 
-    <div class="cardapio-container">
-        <div class="cardapio-type">
-            <h2>Sanduíches</h2>
-        </div>
-
-        <div id="sanduiches-list"></div>
-    </div>
-
     <button class="add-button" id="add-button">ADICIONAR</button>
 
     <!-- Menu para adicionar novos itens -->
@@ -54,7 +46,7 @@
         
         <label for="itemDescricao">Descrição:</label>
         <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
-        
+
         <button id="save-button" class="save-button">SALVAR</button>
         <button id="cancel-button" class="cancel-button">CANCELAR</button>
     </div>
@@ -139,7 +131,7 @@ function excluirItem(apiUrl, id) {
 // Função para carregar dados de todas as categorias
 function carregarTodosDados() {
     buscarDados('/salgados/api', 'salgados-list');
-    buscarDados('/sanduiches/api', 'sanduiches-list');
+    buscarDados('/sanduiches/api', 'salgados-list');
 }
 
 // Chama a função para buscar dados ao carregar a página

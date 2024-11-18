@@ -35,7 +35,7 @@ public class SanduicheDAO extends GenericDAO<Sanduiche,Integer>{
  try(PreparedStatement statement = getConnection().prepareStatement(sql)){
      statement.setString(1, sanduiche.getnome());
      statement.setDouble(2, sanduiche.getpreco());
-     statement.setString(3, sanduiche.getdescricao());
+     statement.setString(3, sanduiche.gettipo());
      statement.execute();
      closeConnection(statement);
  } catch (Exception e){
@@ -59,7 +59,7 @@ public class SanduicheDAO extends GenericDAO<Sanduiche,Integer>{
  try(PreparedStatement statement = getConnection().prepareStatement(sql)){
      statement.setString(1, sanduiche.getnome());
      statement.setDouble(2, sanduiche.getpreco());
-     statement.setString(3,sanduiche.getdescricao());
+     statement.setString(3,sanduiche.gettipo());
      statement.setInt(4, sanduiche.getId());
      statement.executeUpdate();
      closeConnection(statement);

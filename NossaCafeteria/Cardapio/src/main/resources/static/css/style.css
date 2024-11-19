@@ -375,6 +375,19 @@ h1 {
     font-size: 1em;
     font-weight: bold;
 }
+
+.alt-button {
+    font-family: "Gravitas One", serif;
+    background-color: #2F1305;
+    color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
 /* End hidden GUI */
 
 /* Exibe o teclado virtual em telas menores */

@@ -123,7 +123,7 @@ function excluirItemGenerico(endpoint, id, atualizarCallback) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ id: parseInt(id) }), // Garante que o id seja enviado como número
     })
     .then(response => {
         if (response.ok) {

@@ -33,6 +33,14 @@
         <div id="salgados-list"></div>
     </div>
 
+    <div class="cardapio-container">
+        <div class="cardapio-type">
+            <h2>Sanduíches</h2>
+        </div>
+
+        <div id="sanduiches-list"></div>
+    </div>
+
     <button class="add-button" id="add-button">ADICIONAR</button>
 
     <!-- Menu para adicionar novos itens -->
@@ -58,7 +66,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     buscarDados('/salgados/api', 'salgados-list');
-    buscarDados('/sanduiches/api', 'salgados-list');
+    buscarDados('/sanduiches/api', 'sanduiches-list');
 });
 
 // Função para buscar dados de um endpoint e renderizar a lista

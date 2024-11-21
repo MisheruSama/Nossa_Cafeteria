@@ -146,9 +146,9 @@ function adicionarEventosExcluir(containerId, endpoint, atualizarCallback) {
     const container = document.getElementById(containerId);
 
     // Seleciona os botões de excluir
-    const deleteButtons = container.querySelectorAll(".delete-button");
+    const deleteButton = container.querySelectorAll(".delete-button");
 
-    deleteButtons.forEach(button => {
+    deleteButton.forEach(button => {
         button.addEventListener("click", () => {
             const itemId = button.dataset.id; // Supondo que o ID do item está em data-id no botão
             if (confirm("Tem certeza que deseja excluir este item?")) {

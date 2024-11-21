@@ -65,8 +65,8 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", () => {
-    buscarDados('/salgados/api', 'salgados-list', '/salgados/excluir');
-    buscarDados('/sanduiches/api', 'sanduiches-list', '/sanduiches/excluir');
+    buscarDados('/salgados/api', 'salgados-list', '/salgados/{id}');
+    buscarDados('/sanduiches/api', 'sanduiches-list', '/sanduiches/{id}');
 });
 
 // Função para buscar dados de um endpoint e renderizar a lista
@@ -119,7 +119,7 @@ function buscarDados(endpoint, containerId) {
 // Função genérica para excluir itens
 function excluirItemGenerico(endpoint, id, atualizarCallback) {
     fetch(endpoint, {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },

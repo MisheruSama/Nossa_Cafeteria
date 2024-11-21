@@ -64,9 +64,10 @@
 
 <script>
 
+// Exemplo de uso para Salgados e Sanduíches
 document.addEventListener("DOMContentLoaded", () => {
-    buscarDados('/salgados/api', 'salgados-list');
-    buscarDados('/sanduiches/api', 'sanduiches-list');
+    buscarDadosComEventos('/salgados/api', 'salgados-list', '/salgados/excluir');
+    buscarDadosComEventos('/sanduiches/api', 'sanduiches-list', '/sanduiches/excluir');
 });
 
 // Função para buscar dados de um endpoint e renderizar a lista
@@ -115,24 +116,91 @@ function buscarDados(endpoint, containerId) {
         .catch(error => console.error(`Erro ao buscar dados de ${endpoint}:`, error));
 }
 
-// Função para excluir um item
-function excluirItem(id) {
-    fetch('/salgados/excluir', {
+// Função genérica para excluir itens
+function excluirItemGenerico(endpoint, id, atualizarCallback) {
+    fetch(endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(id),
+        body: JSON.stringify({ id: id }),
     })
     .then(response => {
         if (response.ok) {
-            alert("Item excluído com sucesso.");
-            buscarDados(); // Atualiza a lista de salgados
+            alert("Item excluído com sucesso!");
+            atualizarCallback(); // Atualiza a lista chamando a função de renderização
         } else {
-            console.error("Erro ao excluir o item:", response.statusText);
+            return response.json().then(error => {
+                throw new Error(error.message || "Erro ao excluir o item.");
+            });
         }
     })
-    .catch(error => console.error("Erro ao excluir o item:", error));
+    .catch(error => {
+        console.error("Erro ao excluir o item:", error);
+        alert(`Erro ao excluir o item: ${error.message}`);
+    });
+}
+
+// Função para adicionar EventListeners de exclusão
+function adicionarEventosExcluir(containerId, endpoint, atualizarCallback) {
+    const container = document.getElementById(containerId);
+
+    // Seleciona os botões de excluir
+    const deleteButtons = container.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const itemId = button.dataset.id; // Supondo que o ID do item está em data-id no botão
+            if (confirm("Tem certeza que deseja excluir este item?")) {
+                excluirItemGenerico(endpoint, itemId, atualizarCallback);
+            }
+        });
+    });
+}
+
+// Função para buscar dados e renderizar lista, com suporte a exclusão
+function buscarDadosComEventos(endpoint, containerId, endpointExcluir) {
+    fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+
+            data.forEach(item => {
+                const cardapioItem = document.createElement("div");
+                cardapioItem.classList.add("cardapio-item");
+
+                const itemDetails = document.createElement("div");
+                itemDetails.classList.add("item-details");
+
+                const itemNome = document.createElement("h3");
+                itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
+
+                const itemDescricao = document.createElement("p");
+                itemDescricao.textContent = item.tipo;
+
+                const orderButton = document.createElement("div");
+                orderButton.classList.add("order-button");
+
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("delete-button");
+                deleteButton.textContent = "EXCLUIR";
+                deleteButton.dataset.id = item.id; // Adiciona o ID do item como atributo no botão
+
+                orderButton.appendChild(deleteButton);
+                itemDetails.appendChild(itemNome);
+                itemDetails.appendChild(itemDescricao);
+                cardapioItem.appendChild(itemDetails);
+                cardapioItem.appendChild(orderButton);
+                container.appendChild(cardapioItem);
+            });
+
+            // Adiciona eventos de exclusão
+            adicionarEventosExcluir(containerId, endpointExcluir, () => {
+                buscarDadosComEventos(endpoint, containerId, endpointExcluir);
+            });
+        })
+        .catch(error => console.error(`Erro ao buscar dados de ${endpoint}:`, error));
 }
 
 // Função para preencher o formulário com dados do item a ser editado

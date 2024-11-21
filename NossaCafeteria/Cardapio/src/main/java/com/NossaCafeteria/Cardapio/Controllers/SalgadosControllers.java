@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.NossaCafeteria.Cardapio.DAO.SalgadosDAO;
 import com.NossaCafeteria.Cardapio.Model.Salgados;
@@ -33,8 +35,8 @@ public String salvarSalgado(@RequestBody Salgados salgado){
     salgados.incluir(salgado);
     return "redirect:/salgados.html";
 }
-@PostMapping("/salgados/excluir")
-public String excluirSalgado(@RequestBody Integer id){
+@DeleteMapping("/salgados/{id}")
+public String excluirSalgado(@PathVariable Integer id){
     salgados.excluir(id);
     return "redirect:/salgados.html";
 }

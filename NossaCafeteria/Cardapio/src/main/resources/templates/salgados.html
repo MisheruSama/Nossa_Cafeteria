@@ -56,17 +56,18 @@
 
 <script>
 
-// Chama a função para buscar dados ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
-    buscarDados();
+    buscarDados('/salgados/api', 'salgados-list');
+    buscarDados('/sanduiches/api', 'salgados-list');
 });
-// Função para buscar dados do backend
-function buscarDados() {
-    fetch('/salgados/api')
+
+// Função para buscar dados de um endpoint e renderizar a lista
+function buscarDados(endpoint, containerId) {
+    fetch(endpoint)
         .then(response => response.json())
         .then(data => {
-            const salgadosList = document.getElementById("salgados-list");
-            salgadosList.innerHTML = "";
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
 
             data.forEach(item => {
                 const cardapioItem = document.createElement("div");
@@ -100,10 +101,10 @@ function buscarDados() {
                 cardapioItem.appendChild(orderButton);
                 orderButton.appendChild(editButton);
                 orderButton.appendChild(deleteButton);
-                salgadosList.appendChild(cardapioItem);
+                container.appendChild(cardapioItem);
             });
         })
-        .catch(error => console.error("Erro ao buscar dados:", error));
+        .catch(error => console.error(`Erro ao buscar dados de ${endpoint}:`, error));
 }
 
 // Função para excluir um item

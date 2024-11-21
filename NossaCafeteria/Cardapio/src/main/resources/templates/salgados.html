@@ -284,6 +284,9 @@ function editarItem(item) {
         document.getElementById("itemDescricao").value = "";
     }
 
+    // Salvar novo item
+    document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+
     // Exibir o formulário para adicionar novo item
     document.getElementById("add-button").addEventListener("click", () => {
         document.getElementById("add-menu").classList.remove("hidden");
@@ -293,7 +296,7 @@ function editarItem(item) {
         document.getElementById("add-menu").classList.add("hidden");
         clearForm();
     });
-        // Salvar novo item
+        // Criar item salvo
         document.getElementById("save-button").addEventListener("click", () => {
             const nome = document.getElementById("itemNome").value;
             const preco = parseFloat(document.getElementById("itemPreco").value);

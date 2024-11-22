@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.NossaCafeteria.Cardapio.DAO.SalgadosDAO;
 import com.NossaCafeteria.Cardapio.Model.Salgados;
@@ -35,7 +34,7 @@ public String salvarSalgado(@RequestBody Salgados salgado){
     salgados.incluir(salgado);
     return "redirect:/salgados.html";
 }
-@DeleteMapping("/salgados/{id}")
+@PostMapping("/salgados/excluir/{id}")
 public String excluirSalgado(@PathVariable Integer id){
     salgados.excluir(id);
     return "redirect:/salgados.html";

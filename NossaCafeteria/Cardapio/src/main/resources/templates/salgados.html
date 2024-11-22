@@ -119,7 +119,7 @@ function buscarDados(endpoint, containerId) {
 // Função genérica para excluir itens
 function excluirItemGenerico(endpoint, id, atualizarCallback) {
     fetch(endpoint, {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },

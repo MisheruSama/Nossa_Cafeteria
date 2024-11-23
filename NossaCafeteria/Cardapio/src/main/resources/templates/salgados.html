@@ -101,7 +101,7 @@ function buscarDados(endpoint, containerId) {
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("delete-button");
                 deleteButton.textContent = "EXCLUIR";
-                deleteButton.addEventListener("click", () => excluirItem(item.id));
+                deleteButton.addEventListener("click", () => excluirItemGenerico(item.id));
 
                 itemDetails.appendChild(itemNome);
                 itemDetails.appendChild(itemDescricao);

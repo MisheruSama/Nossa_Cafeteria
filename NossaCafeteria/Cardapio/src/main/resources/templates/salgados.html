@@ -118,17 +118,13 @@ function buscarDados(endpoint, containerId) {
 
 // Função genérica para excluir itens
 function excluirItemGenerico(endpoint, id, atualizarCallback) {
-    fetch(endpoint, {
+    fetch(`${endpoint}/${id}`, { // Insere o ID na URL
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: id }),
     })
     .then(response => {
         if (response.ok) {
             alert("Item excluído com sucesso!");
-            atualizarCallback(); // Atualiza a lista chamando a função de renderização
+            atualizarCallback();
         } else {
             return response.json().then(error => {
                 throw new Error(error.message || "Erro ao excluir o item.");

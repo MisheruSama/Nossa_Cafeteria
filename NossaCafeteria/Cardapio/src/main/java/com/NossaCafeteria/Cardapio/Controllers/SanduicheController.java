@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +37,7 @@ public String excluir(@PathVariable Integer id){
     sanduiche.excluir(id);
     return "redirect:/salgados.html";
 }
-@PutMapping("/sanduiches/alterar")
+@PostMapping("/sanduiches/alterar")
 public String editar(@RequestBody Sanduiche sanduiches){
     sanduiche.alterar(sanduiches);
     return "redirect:/salgados.html";

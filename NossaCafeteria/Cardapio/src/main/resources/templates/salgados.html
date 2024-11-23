@@ -65,12 +65,12 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", () => {
-    buscarDados('/salgados/api', 'salgados-list', '/salgados/{id}');
-    buscarDados('/sanduiches/api', 'sanduiches-list', '/sanduiches/{id}');
+    buscarDados('/salgados/api', 'salgados-list', '/salgados');
+    buscarDados('/sanduiches/api', 'sanduiches-list', '/sanduiches');
 });
 
 // Função para buscar dados de um endpoint e renderizar a lista
-function buscarDados(endpoint, containerId) {
+function buscarDados(endpoint, containerId, endpointExcluir) {
     fetch(endpoint)
         .then(response => response.json())
         .then(data => {
@@ -101,7 +101,11 @@ function buscarDados(endpoint, containerId) {
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("delete-button");
                 deleteButton.textContent = "EXCLUIR";
-                deleteButton.addEventListener("click", () => excluirItem(item.id));
+
+                // Adicionando o evento de exclusão ao botão
+                deleteButton.addEventListener("click", () => {
+                    excluirItem(item.id, endpointExcluir, endpoint, containerId);
+                });
 
                 itemDetails.appendChild(itemNome);
                 itemDetails.appendChild(itemDescricao);
@@ -116,26 +120,23 @@ function buscarDados(endpoint, containerId) {
 }
 
 // Função para excluir um item do cardápio
-function excluirItem(id, endpoint) {
-    fetch(`${endpoint}/${id}`, { method: 'POST' })
+function excluirItem(id, endpointExcluir, endpointListar, containerId) {
+    fetch(`${endpointExcluir}/${id}`, { method: 'DELETE' }) // Agora usa DELETE
         .then(response => {
             if (response.ok) {
                 alert("Item excluído com sucesso!");
-                // Recarrega os dados após a exclusão
-                buscarDados(endpoint, endpoint === '/salgados/api' ? 'salgados-list' : 'sanduiches-list', endpoint);
+                buscarDados(endpointListar, containerId, endpointExcluir);
             } else {
                 return response.text().then(error => {
                     throw new Error(error || "Erro desconhecido.");
                 });
             }
-        })
+        })  
         .catch(error => {
             console.error("Erro ao excluir o item:", error.message);
             alert(`Erro: ${error.message}`);
         });
-} 
-
-deleteButton.addEventListener("click", () => excluirItem(item.id, endpointExcluir));
+}
 
 // Função para preencher o formulário com dados do item a ser editado
 function editarItem(item) {

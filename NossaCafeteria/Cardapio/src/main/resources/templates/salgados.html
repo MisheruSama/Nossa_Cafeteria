@@ -181,17 +181,17 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
 
          // Adicionar um item usando o formulário
          function adicionarNovoItem() {
-    const nome = document.getElementById("itemNome").value;
-    const preco = parseFloat(document.getElementById("itemPreco").value);
-    const tipo = document.getElementById("itemDescricao").value;
-    const categoria = document.getElementById("itemCategoria").value; // Obtém a categoria
+            const nome = document.getElementById("itemNome").value;
+            const preco = parseFloat(document.getElementById("itemPreco").value);
+            const tipo = document.getElementById("itemDescricao").value;
+            const categoria = document.getElementById("itemCategoria").value; // Obtém a categoria
 
-    if (nome && !isNaN(preco) && tipo) {
-        const novoItem = {
-            nome: nome,
-            preco: preco,
-            tipo: descricao,
-        };
+                if (nome && !isNaN(preco) && tipo) {
+                    const novoItem = {
+                        nome: nome,
+                        preco: preco,
+                        tipo: tipo,
+                    };
 
         // Define o endpoint com base na categoria
         const endpointSalvar = categoria === "salgados" ? "/salgados/salvar" : "/sanduiches/salvar";
@@ -238,48 +238,6 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
         document.getElementById("add-menu").classList.add("hidden");
         clearForm();
     });
-        // Criar item salvo
-        document.getElementById("save-button").addEventListener("click", () => {
-            const nome = document.getElementById("itemNome").value;
-            const preco = parseFloat(document.getElementById("itemPreco").value);
-            const tipo = document.getElementById("itemDescricao").value;
-            if (nome && !isNaN(preco) && tipo) {
-                // Cria um novo cardapioItem com os dados do formulário
-                const salgadosList = document.getElementById("salgados-list");
-                const cardapioItem = document.createElement("div");
-                cardapioItem.classList.add("cardapio-item");
-                const itemDetails = document.createElement("div");
-                itemDetails.classList.add("item-details");
-                const itemNome = document.createElement("h3");
-                itemNome.innerHTML = `${nome} <span class="price">R$ ${preco.toFixed(2)}</span>`;
-                const itemDescricao = document.createElement("p");
-                itemDescricao.textContent = descricao;
-                const orderButton = document.createElement("div");
-                orderButton.classList.add("order-button");
-
-                const editButton = document.createElement("button");
-                editButton.classList.add("edit-button");
-                editButton.textContent = "EDITAR";
-
-                const deleteButton = document.createElement("button");
-                deleteButton.classList.add("delete-button");
-                deleteButton.textContent = "EXCLUIR";
-
-                itemDetails.appendChild(itemNome);
-                itemDetails.appendChild(itemDescricao);
-                cardapioItem.appendChild(itemDetails)
-                cardapioItem.appendChild(orderButton)
-                orderButton.appendChild(editButton);
-                orderButton.appendChild(deleteButton);
-                salgadosList.appendChild(cardapioItem);
-
-                // Fecha o menu e limpa o formulário
-                document.getElementById("add-menu").classList.add("hidden");
-                clearForm();
-            } else {
-                alert("Por favor, preencha todos os campos obrigatórios.");
-            }
-        });
 
 </script>
 

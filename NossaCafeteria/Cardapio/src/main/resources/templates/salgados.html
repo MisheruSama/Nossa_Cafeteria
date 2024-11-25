@@ -55,6 +55,12 @@
         <label for="itemDescricao">Descrição:</label>
         <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
 
+        <label for="itemCategoria">Categoria:</label>
+        <select id="itemCategoria" required>
+            <option value="salgados">Salgados</option>
+            <option value="sanduiches">Sanduíches</option>
+        </select>
+
         <button id="save-button" class="save-button">SALVAR</button>
         <button id="alt-button" class="alt-button hidden">ALTERAR</button>
         <button id="cancel-button" class="cancel-button">CANCELAR</button>
@@ -156,7 +162,7 @@ function editarItem(item) {
 
 // Função para excluir o item
 function excluirItem(id, endpointExcluir, endpointListar, containerId) {
-    fetch(`${endpointExcluir}/${id}`, { method: 'DELETE' }) // Método DELETE
+    fetch(`${endpointExcluir}/${id}`, { method: 'POST' }) // Método DELETE
         .then(response => {
             if (response.ok) {
                 alert("Item excluído com sucesso!");
@@ -174,40 +180,44 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
 }
 
          // Adicionar um item usando o formulário
-    function adicionarNovoItem() {
-        const nome = document.getElementById("itemNome").value;
-        const preco = parseFloat(document.getElementById("itemPreco").value);
-        const tipo = document.getElementById("itemDescricao").value;
-        // Validação dos dados do formulário
-        if (nome && !isNaN(preco) && tipo) {
-            const novoItem = {
-                nome: nome,
-                preco: preco,
-                tipo: tipo
-            };
-            // Enviar dados ao backend para incluir no banco
-            fetch('/salgados/salvar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(novoItem),
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("Item adicionado com sucesso.");
-                    document.getElementById("add-menu").classList.add("hidden");
-                    clearForm();
-                    buscarDados(); // Atualiza a lista de salgados
-                } else {
-                    console.error("Erro ao adicionar o item:", response.statusText);
-                }
-            })
-            .catch(error => console.error("Erro ao adicionar o item:", error));
-        } else {
-            alert("Por favor, preencha todos os campos obrigatórios.");
-        }
+         function adicionarNovoItem() {
+    const nome = document.getElementById("itemNome").value;
+    const preco = parseFloat(document.getElementById("itemPreco").value);
+    const descricao = document.getElementById("itemDescricao").value;
+    const categoria = document.getElementById("itemCategoria").value; // Obtém a categoria
+
+    if (nome && !isNaN(preco) && descricao) {
+        const novoItem = {
+            nome: nome,
+            preco: preco,
+            descricao: descricao,
+        };
+
+        // Define o endpoint com base na categoria
+        const endpointSalvar = categoria === "salgados" ? "/salgados/salvar" : "/sanduiches/salvar";
+        const endpointAtualizar = categoria === "salgados" ? "/salgados/api" : "/sanduiches/api";
+        const containerId = categoria === "salgados" ? "salgados-list" : "sanduiches-list";
+
+        fetch(endpointSalvar, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(novoItem),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Item adicionado com sucesso.");
+                document.getElementById("add-menu").classList.add("hidden");
+                clearForm();
+                buscarDados(endpointAtualizar, containerId, endpointSalvar); // Atualiza a lista correta
+            } else {
+                console.error("Erro ao adicionar o item:", response.statusText);
+            }
+        })
+        .catch(error => console.error("Erro ao adicionar o item:", error));
+    } else {
+        alert("Por favor, preencha todos os campos obrigatórios.");
     }
+}
 
     // Função para limpar o formulário
     function clearForm() {

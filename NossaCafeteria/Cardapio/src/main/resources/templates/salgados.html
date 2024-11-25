@@ -181,22 +181,23 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
 
          // Adicionar um item usando o formulário
          function adicionarNovoItem() {
-            const nome = document.getElementById("itemNome").value;
-            const preco = parseFloat(document.getElementById("itemPreco").value);
-            const tipo = document.getElementById("itemDescricao").value;
-            const categoria = document.getElementById("itemCategoria").value; // Obtém a categoria
+    const nome = document.getElementById("itemNome").value;
+    const preco = parseFloat(document.getElementById("itemPreco").value);
+    const descricao = document.getElementById("itemDescricao").value; // Mantendo a descrição
+    const tipo = document.getElementById("itemCategoria").value; // Usando "tipo" para categorizar
 
-                if (nome && !isNaN(preco) && tipo) {
-                    const novoItem = {
-                        nome: nome,
-                        preco: preco,
-                        tipo: tipo,
-                    };
+    if (nome && !isNaN(preco) && tipo) {
+        const novoItem = {
+            nome: nome,
+            preco: preco,
+            descricao: descricao,  // Passando a descrição normalmente
+            tipo: tipo,  // Passando o tipo como "salgados" ou "sanduiches"
+        };
 
-        // Define o endpoint com base na categoria
-        const endpointSalvar = categoria === "salgados" ? "/salgados/salvar" : "/sanduiches/salvar";
-        const endpointAtualizar = categoria === "salgados" ? "/salgados/api" : "/sanduiches/api";
-        const containerId = categoria === "salgados" ? "salgados-list" : "sanduiches-list";
+        // Define o endpoint com base no tipo (salgados ou sanduíches)
+        const endpointSalvar = tipo === "salgados" ? "/salgados/salvar" : "/sanduiches/salvar";
+        const endpointAtualizar = tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
+        const containerId = tipo === "salgados" ? "salgados-list" : "sanduiches-list";
 
         fetch(endpointSalvar, {
             method: 'POST',

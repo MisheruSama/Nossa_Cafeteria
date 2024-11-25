@@ -13,13 +13,14 @@ public class SanduicheDAO extends GenericDAO<Sanduiche,Integer>{
 @Override
  public List<Sanduiche> obterTodos(){
     List<Sanduiche> sanduiches = new ArrayList<>();
-    String sql = "SELECT ID, NOME, PRECO, DESCRICAO FROM SANDUICHES";
+    String sql = "SELECT ID, NOME, PRECO, TIPO, DESCRICAO FROM SANDUICHES";
     try(PreparedStatement statement = getConnection().prepareStatement(sql)){
     try(ResultSet resultSanduiche = statement.executeQuery()){
         while(resultSanduiche.next()){
             sanduiches.add(new Sanduiche(resultSanduiche.getInt("ID"),
                 resultSanduiche.getString("NOME"),
             resultSanduiche.getDouble("PRECO"),
+            resultSanduiche.getString("TIPO"),
             resultSanduiche.getString("DESCRICAO")));
         }
     }
@@ -31,11 +32,12 @@ public class SanduicheDAO extends GenericDAO<Sanduiche,Integer>{
  }
  @Override
  public void incluir(Sanduiche sanduiche){
- String sql = "INSERT INTO SANDUICHES(NOME, PRECO, DESCRICAO) VALUES(?, ?, ?)";
+ String sql = "INSERT INTO SANDUICHES(NOME, PRECO, TIPO, DESCRICAO) VALUES(?, ?, ?, ?)";
  try(PreparedStatement statement = getConnection().prepareStatement(sql)){
      statement.setString(1, sanduiche.getnome());
      statement.setDouble(2, sanduiche.getpreco());
      statement.setString(3, sanduiche.gettipo());
+     statement.setString(4,sanduiche.getDescricao());
      statement.execute();
      closeConnection(statement);
  } catch (Exception e){
@@ -55,12 +57,13 @@ public class SanduicheDAO extends GenericDAO<Sanduiche,Integer>{
  }
  @Override
  public void alterar(Sanduiche sanduiche){
- String sql = "UPDATE SANDUICHES SET NOME = ?, PRECO = ?, DESCRICAO = ?" + "WHERE ID = ?";
+ String sql = "UPDATE SANDUICHES SET NOME = ?, PRECO = ?, TIPO= ?, DESCRICAO = ?" + "WHERE ID = ?";
  try(PreparedStatement statement = getConnection().prepareStatement(sql)){
      statement.setString(1, sanduiche.getnome());
      statement.setDouble(2, sanduiche.getpreco());
      statement.setString(3,sanduiche.gettipo());
-     statement.setInt(4, sanduiche.getId());
+     statement.setString(4, sanduiche.getDescricao());
+     statement.setInt(5, sanduiche.getId());
      statement.executeUpdate();
      closeConnection(statement);
  } catch(Exception e ){

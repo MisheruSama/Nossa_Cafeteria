@@ -13,14 +13,15 @@ public class SalgadosDAO extends GenericDAO<Salgados,Integer>{
     @Override
    public List<Salgados> obterTodos(){
     List<Salgados> Salgado = new ArrayList<>();
-    String sql = "SELECT ID, NOME, PRECO, TIPO FROM SALGADOS";
+    String sql = "SELECT ID, NOME, PRECO, TIPO, DESCRICAO FROM SALGADOS";
     try(PreparedStatement statement = getConnection().prepareStatement(sql)){
     try(ResultSet resultSalgado = statement.executeQuery()){
         while(resultSalgado.next()){
             Salgado.add(new Salgados(resultSalgado.getInt("ID"),
                 resultSalgado.getString("NOME"),
             resultSalgado.getDouble("PRECO"),
-            resultSalgado.getString("TIPO")));
+            resultSalgado.getString("TIPO"),
+            resultSalgado.getString("DESCRICAO")));
         }
     }
     closeConnection(statement);
@@ -31,11 +32,12 @@ public class SalgadosDAO extends GenericDAO<Salgados,Integer>{
    }
    @Override
    public void incluir(Salgados salgados){
-   String sql = "INSERT INTO SALGADOS(NOME, PRECO, TIPO) VALUES(?, ?, ?)";
+   String sql = "INSERT INTO SALGADOS(NOME, PRECO, TIPO, DESCRICAO) VALUES(?, ?, ?, ?)";
    try(PreparedStatement statement = getConnection().prepareStatement(sql)){
        statement.setString(1, salgados.getnome());
        statement.setDouble(2, salgados.getpreco());
        statement.setString(3, salgados.getTipo());
+       statement.setString(4,salgados.getDescricao());
        statement.executeUpdate();
        closeConnection(statement);
    } catch (Exception e){
@@ -55,12 +57,13 @@ public class SalgadosDAO extends GenericDAO<Salgados,Integer>{
    }
    @Override
    public void alterar(Salgados salgados){
-   String sql = "UPDATE SALGADOS SET NOME = ?, PRECO = ?, TIPO = ?" + "WHERE ID = ?";
+   String sql = "UPDATE SALGADOS SET NOME = ?, PRECO = ?, TIPO = ?, DESCRICAO= ?" + "WHERE ID = ?";
    try(PreparedStatement statement = getConnection().prepareStatement(sql)){
        statement.setString(1, salgados.getnome());
        statement.setDouble(2, salgados.getpreco());
        statement.setString(3, salgados.getTipo());
-       statement.setInt(4, salgados.getId());
+       statement.setString(4,salgados.getDescricao());
+       statement.setInt(5, salgados.getId());
        statement.executeUpdate();
        closeConnection(statement);
    } catch(Exception e ){

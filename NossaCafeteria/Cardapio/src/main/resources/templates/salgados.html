@@ -183,14 +183,14 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
          function adicionarNovoItem() {
     const nome = document.getElementById("itemNome").value;
     const preco = parseFloat(document.getElementById("itemPreco").value);
-    const descricao = document.getElementById("itemDescricao").value;
+    const tipo = document.getElementById("itemDescricao").value;
     const categoria = document.getElementById("itemCategoria").value; // Obtém a categoria
 
-    if (nome && !isNaN(preco) && descricao) {
+    if (nome && !isNaN(preco) && tipo) {
         const novoItem = {
             nome: nome,
             preco: preco,
-            descricao: descricao,
+            tipo: descricao,
         };
 
         // Define o endpoint com base na categoria

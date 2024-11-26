@@ -188,7 +188,7 @@ function editarItem(item) {
 function excluirItem(itemId, urlExcluir, endpointAtualizar, containerId) {
     if (confirm("Tem certeza que deseja excluir este item?")) {
         fetch(`${urlExcluir}/${itemId}`, {
-            method: "POST",
+            method: "DELETE",
         })
             .then((response) => {
                 if (response.ok) {

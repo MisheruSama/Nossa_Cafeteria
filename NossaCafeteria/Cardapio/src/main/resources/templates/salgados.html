@@ -108,16 +108,12 @@ function buscarDados(endpoint, containerId, endpointExcluir) {
                 deleteButton.classList.add("delete-button");
                 deleteButton.textContent = "EXCLUIR";
                 deleteButton.addEventListener("click", () => {
-                    excluirItem(
-                        item.id,                  // ID do item
-                        endpointExcluir,          // URL para exclusão
-                        endpoint,                 // URL para atualizar a lista
-                        containerId               // Container para renderizar a lista
-                    );
+                    const tipo = item.tipo;  // Tipo (salgados ou sanduíches)
+                    const endpointExcluir = tipo === "salgados" ? `/salgados/excluir/${item.id}` : `/sanduiches/excluir/${item.id}`;
+                    const endpointAtualizar = tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
+                    const containerId = tipo === "salgados" ? "salgados-list" : "sanduiches-list";
+                    excluirItem(item.id, endpointExcluir, endpointAtualizar, containerId); // Chama a função de exclusão com todos os parâmetros necessários
                 });
-
-                // Adicionando o evento de exclusão ao botão
-                
 
                 itemDetails.appendChild(itemNome);
                 itemDetails.appendChild(itemDescricao);
@@ -185,12 +181,7 @@ function editarItem(item) {
 }
 
     // Função para excluir o item
-    function excluirItem(itemId, tipo) {
-        // Define o endpoint de exclusão com base no tipo (salgados ou sanduíches)
-        const endpointExcluir = tipo === "salgados" ? `/salgados/excluir/${itemId}` : `/sanduiches/excluir/${itemId}`;
-        const endpointAtualizar = tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
-        const containerId = tipo === "salgados" ? "salgados-list" : "sanduiches-list";
-
+    function excluirItem(itemId, endpointExcluir, endpointAtualizar, containerId) {
         fetch(endpointExcluir, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },

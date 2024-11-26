@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Nossa Cafeteria</title>
+    <title>Doces | Nossa Cafeteria</title>
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Gravitas+One&family=Pacifico&family=Unlock&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!--Cabeçalho-->
+    <!-- Cabeçalho -->
     <header>
         <section>
             <div class="container">
@@ -24,28 +24,183 @@
         </section>
     </header>
 
+    <!-- Itens do Cardápio -->
     <div class="cardapio-container">
         <div class="cardapio-type">
             <h2>Doces</h2>
         </div>
-
-        <div class="cardapio-item">
-            <div class="item-details">
-                <h3>Doces Diversos | <span class="price">13,00</span></h3>
-                <p>Qualquer doce de presença no vidro de exibição</p>
-            </div>
-            <button class="order-button">QUERO ESSE</button>
-        </div>
-
-        <div class="cardapio-item">
-            <div class="item-details">
-                <h3>Pavê | <span class="price">16,00</span></h3>
-                <p>Uma sobremesa clássica e cremosa.</p>
-            </div>
-            <button class="order-button">QUERO ESSE</button>
-        </div>
-
+        <div id="doces-list"></div>
     </div>
+
+    <button class="add-button" id="add-button">ADICIONAR</button>
+
+    <!-- Menu para adicionar novos itens -->
+    <div id="add-menu" class="add-menu hidden">
+        <h2>Adicionar Novo Item</h2>
+        <label for="itemNome">Nome:</label>
+        <input type="text" id="itemNome" placeholder="Digite o nome do item" required>
+
+        <label for="itemPreco">Preço:</label>
+        <input type="number" id="itemPreco" placeholder="Digite o preço do item" step="0.01" required>
+
+        <label for="itemDescricao">Descrição:</label>
+        <textarea id="itemDescricao" placeholder="Digite a descrição do item"></textarea>
+
+        <button id="save-button" class="save-button">SALVAR</button>
+        <button id="alt-button" class="alt-button hidden">ALTERAR</button>
+        <button id="cancel-button" class="cancel-button">CANCELAR</button>
+    </div>
+
 </body>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        buscarDados();
+    });
+
+    // Função para buscar e renderizar a lista de doces
+    function buscarDados() {
+        fetch('/doces/api')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("doces-list");
+                container.innerHTML = "";
+
+                data.forEach(item => {
+                    const cardapioItem = document.createElement("div");
+                    cardapioItem.classList.add("cardapio-item");
+
+                    const itemDetails = document.createElement("div");
+                    itemDetails.classList.add("item-details");
+
+                    const itemNome = document.createElement("h3");
+                    itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
+
+                    const itemDescricao = document.createElement("p");
+                    itemDescricao.textContent = item.descricao;
+
+                    const orderButton = document.createElement("div");
+                    orderButton.classList.add("order-button");
+
+                    const editButton = document.createElement("button");
+                    editButton.classList.add("edit-button");
+                    editButton.textContent = "EDITAR";
+                    editButton.addEventListener("click", () => editarItem(item));
+
+                    const deleteButton = document.createElement("button");
+                    deleteButton.classList.add("delete-button");
+                    deleteButton.textContent = "EXCLUIR";
+                    deleteButton.addEventListener("click", () => excluirItem(item.id));
+
+                    itemDetails.appendChild(itemNome);
+                    itemDetails.appendChild(itemDescricao);
+                    cardapioItem.appendChild(itemDetails);
+                    orderButton.appendChild(editButton);
+                    orderButton.appendChild(deleteButton);
+                    cardapioItem.appendChild(orderButton);
+                    container.appendChild(cardapioItem);
+                });
+            })
+            .catch(error => console.error("Erro ao buscar dados:", error));
+    }
+
+    // Função para editar item
+    function editarItem(item) {
+        document.getElementById("itemNome").value = item.nome;
+        document.getElementById("itemPreco").value = item.preco;
+        document.getElementById("itemDescricao").value = item.descricao;
+
+        document.getElementById("add-menu").classList.remove("hidden");
+        document.getElementById("alt-button").classList.remove("hidden");
+        document.getElementById("save-button").classList.add("hidden");
+
+        document.getElementById("alt-button").onclick = function () {
+            const updatedItem = {
+                id: item.id,
+                nome: document.getElementById("itemNome").value,
+                preco: parseFloat(document.getElementById("itemPreco").value),
+                descricao: document.getElementById("itemDescricao").value,
+            };
+
+            fetch('/doces/alterar', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedItem),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Item atualizado com sucesso.");
+                        document.getElementById("add-menu").classList.add("hidden");
+                        clearForm();
+                        buscarDados();
+                    } else {
+                        console.error("Erro ao atualizar o item:", response.statusText);
+                    }
+                })
+                .catch(error => console.error("Erro ao atualizar o item:", error));
+        };
+    }
+
+    // Função para excluir item
+    function excluirItem(itemId) {
+        fetch(`/doces/excluir/${itemId}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    alert("Item excluído com sucesso.");
+                    buscarDados();
+                } else {
+                    console.error("Erro ao excluir o item:", response.statusText);
+                }
+            })
+            .catch(error => console.error("Erro ao excluir o item:", error));
+    }
+
+    // Função para adicionar novo item
+    function adicionarNovoItem() {
+        const nome = document.getElementById("itemNome").value;
+        const preco = parseFloat(document.getElementById("itemPreco").value);
+        const descricao = document.getElementById("itemDescricao").value;
+
+        if (nome && !isNaN(preco)) {
+            const novoItem = { nome, preco, descricao };
+
+            fetch('/doces/salvar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novoItem),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Item adicionado com sucesso.");
+                        document.getElementById("add-menu").classList.add("hidden");
+                        clearForm();
+                        buscarDados();
+                    } else {
+                        console.error("Erro ao adicionar o item:", response.statusText);
+                    }
+                })
+                .catch(error => console.error("Erro ao adicionar o item:", error));
+        } else {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+        }
+    }
+
+    // Função para limpar o formulário
+    function clearForm() {
+        document.getElementById("itemNome").value = "";
+        document.getElementById("itemPreco").value = "";
+        document.getElementById("itemDescricao").value = "";
+    }
+
+    // Configuração dos botões
+    document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+    document.getElementById("add-button").addEventListener("click", () => {
+        document.getElementById("add-menu").classList.remove("hidden");
+    });
+    document.getElementById("cancel-button").addEventListener("click", () => {
+        document.getElementById("add-menu").classList.add("hidden");
+        clearForm();
+    });
+
+</script>
 </html>

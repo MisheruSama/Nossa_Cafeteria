@@ -116,6 +116,7 @@ header {
     background-color: #2F1305;
     height: 50px;
     width: 350px;
+    justify-content: center;
     color: white;
     border-radius: 10px;
     outline: none;
@@ -390,7 +391,6 @@ h1 {
 }
 /* End hidden GUI */
 
-/* Exibe o teclado virtual em telas menores */
 @media (max-width: 768px) {
 
     .display {
@@ -415,6 +415,10 @@ h1 {
 
     .interface p {
         font-size: 15px;
+    }
+
+    .enter-button {
+        margin: auto;
     }
 
     .menu-grid img {

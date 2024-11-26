@@ -13,14 +13,15 @@ public class BebidaGeladaDAO extends GenericDAO<BebidaGelada,Integer>{
     @Override
     public List<BebidaGelada> obterTodos(){
         List<BebidaGelada> Bebidas = new ArrayList<>();
-        String sql = "SELECT ID, NOME, PRECO, TIPO FROM BEBIDA_GELADA";
+        String sql = "SELECT ID, NOME, PRECO, TIPO, DESCRICAO FROM BEBIDA_GELADA";
         try(PreparedStatement statement = getConnection().prepareStatement(sql)){
             try(ResultSet resultBebidas = statement.executeQuery()){
                 while(resultBebidas.next()){
                     Bebidas.add(new BebidaGelada(resultBebidas.getInt("ID"),
                         resultBebidas.getString("NOME"),
                     resultBebidas.getDouble("PRECO"),
-                    resultBebidas.getString("TIPO")));
+                    resultBebidas.getString("TIPO"),
+                    resultBebidas.getString("DESCRICAO")));
                 }
             }
             closeConnection(statement);
@@ -31,11 +32,12 @@ public class BebidaGeladaDAO extends GenericDAO<BebidaGelada,Integer>{
     }
     @Override
     public void incluir(BebidaGelada bebida){
-        String sql = "INSERT INTO BEBIDA_GELADA(NOME, PRECO, TIPO) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO BEBIDA_GELADA(NOME, PRECO, TIPO, DESCRICAO) VALUES (?, ?, ?, ?)";
         try(PreparedStatement statement = getConnection().prepareStatement(sql)){
             statement.setString(1, bebida.getnome());
             statement.setDouble(2, bebida.getpreco());
             statement.setString(3, bebida.getTipo());
+            statement.setString(4, bebida.getDescricao());
             statement.execute();
             closeConnection(statement);
         } catch(Exception e){
@@ -55,12 +57,13 @@ public class BebidaGeladaDAO extends GenericDAO<BebidaGelada,Integer>{
     }
     @Override
     public void alterar(BebidaGelada bebida){
-        String sql = "UPDATE BEBIDA_GELADA SET NOME = ?, PRECO = ?, TIPO = ?" + "WHERE ID = ?";
+        String sql = "UPDATE BEBIDA_GELADA SET NOME = ?, PRECO = ?, TIPO = ?, DESCRICAO = ?" + "WHERE ID = ?";
         try(PreparedStatement statement = getConnection().prepareStatement(sql)){
             statement.setString(1, bebida.getnome());
             statement.setDouble(2, bebida.getpreco());
             statement.setString(3, bebida.getTipo());
-            statement.setInt(4, bebida.getId());
+            statement.setString(4, bebida.getDescricao());
+            statement.setInt(5, bebida.getId());
             statement.executeUpdate();
             closeConnection(statement);
         } catch(Exception e ){

@@ -2,10 +2,12 @@ package com.NossaCafeteria.Cardapio.Model;
 
 public class Cafe extends Produto{
     private String tipo;
+    private String descricao;
     
-    public Cafe(Integer id, String nome, Double preco, String tipo) {
+    public Cafe(Integer id, String nome, Double preco, String tipo, String descricao) {
         super(id, nome, preco);
         this.tipo = tipo;
+        this.descricao=descricao;
     }
 
     public String getTipo() {
@@ -13,6 +15,14 @@ public class Cafe extends Produto{
     }
     public void SetTipo(String tipo){
         this.tipo=tipo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     

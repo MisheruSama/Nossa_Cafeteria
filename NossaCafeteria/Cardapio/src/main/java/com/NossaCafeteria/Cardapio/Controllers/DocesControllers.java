@@ -17,9 +17,9 @@ public class DocesControllers {
 @Autowired
 private DocesDAO candy;
 
-@GetMapping("/doces.html")
+@GetMapping("/doces")
 public String indexDoces(){
-    return "doces";
+    return "doces.html";
 }
 @GetMapping("/doces/api")
 @ResponseBody

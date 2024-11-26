@@ -12,7 +12,7 @@ import com.NossaCafeteria.Cardapio.Model.Cafe;
 public  class CafeDAO extends GenericDAO<Cafe,Integer>{
     @Override
     public List<Cafe> obterTodos(){
-        String sql = "SELECT ID, NOME, PRECO, TIPO FROM CAFE";
+        String sql = "SELECT ID, NOME, PRECO, TIPO, DESCRICAO FROM CAFE";
         List<Cafe> Cafes = new ArrayList<>();
         try(PreparedStatement statement = getConnection().prepareStatement(sql)){
         try(ResultSet resultCafe = statement.executeQuery()){
@@ -20,7 +20,8 @@ public  class CafeDAO extends GenericDAO<Cafe,Integer>{
                 Cafes.add(new Cafe(resultCafe.getInt("ID"),
                     resultCafe.getString("NOME"),
                 resultCafe.getDouble("PRECO"),
-                resultCafe.getString("TIPO")));
+                resultCafe.getString("TIPO"),
+                resultCafe.getString("DESCRICAO")));
             }
         }
         closeConnection(statement);
@@ -31,11 +32,12 @@ public  class CafeDAO extends GenericDAO<Cafe,Integer>{
     }
     @Override
     public void incluir(Cafe cafe){
-    String sql = "INSERT INTO CAFE(NOME, PRECO, TIPO) VALUES(?, ?, ?)";
+    String sql = "INSERT INTO CAFE(NOME, PRECO, TIPO, DESCRICAO) VALUES(?, ?, ?, ?)";
     try(PreparedStatement statement = getConnection().prepareStatement(sql)){
         statement.setString(1, cafe.getnome());
         statement.setDouble(2, cafe.getpreco());
         statement.setString(3, cafe.getTipo());
+        statement.setString(4, cafe.getDescricao());
         statement.execute();
         closeConnection(statement);
     } catch (Exception e){
@@ -55,12 +57,13 @@ public  class CafeDAO extends GenericDAO<Cafe,Integer>{
     }
     @Override
     public void alterar(Cafe cafe){
-    String sql = "UPDATE CAFE SET NOME = ?, PRECO = ?, TIPO = ?" + "WHERE ID = ?";
+    String sql = "UPDATE CAFE SET NOME = ?, PRECO = ?, TIPO = ?, DESCRICAO = ?" + "WHERE ID = ?";
     try(PreparedStatement statement = getConnection().prepareStatement(sql)){
         statement.setString(1, cafe.getnome());
         statement.setDouble(2, cafe.getpreco());
         statement.setString(3, cafe.getTipo());
-        statement.setInt(4, cafe.getId());
+        statement.setString(4, cafe.getDescricao());
+        statement.setInt(5, cafe.getId());
         statement.executeUpdate();
         closeConnection(statement);
     } catch(Exception e ){

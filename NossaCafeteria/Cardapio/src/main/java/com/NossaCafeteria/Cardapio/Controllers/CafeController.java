@@ -3,8 +3,12 @@ package com.NossaCafeteria.Cardapio.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,9 +21,9 @@ public class CafeController {
 @Autowired
 private CafeDAO cafe;
 
-@GetMapping("/cafe.html")
+@GetMapping("/cafes")
 public String indexCafe(){
-    return "bebidas";
+    return "bebidas.html";
 }
 @GetMapping("/cafes/api")
 @ResponseBody
@@ -31,10 +35,14 @@ public String salvarCafe(@RequestBody Cafe cafes){
     cafe.incluir(cafes);
     return "redirect:/bebidas.html";
 }
-@PostMapping("/cafes/excluir")
-public String excluirCafe(@RequestBody Integer id){
+@DeleteMapping("/cafes/excluir/{id}")
+public ResponseEntity<String> excluirCafe(@PathVariable Integer id){
+    try{
     cafe.excluir(id);
-    return "redirect:/bebidas.html";
+    return ResponseEntity.ok("Item excluido com sucesso");
+    } catch(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir o item");
+    }
 }
 @PostMapping("/cafes/alterar")
 public String editarCafe(@RequestBody Cafe cafes){

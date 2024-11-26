@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MenuController {
 
 @GetMapping("/")
-public String index(){
-    return "index";
+public String login(){
+    return "login.html";
+}
+@GetMapping("/index.html")
+public String menu(){
+    return "index.html";
 }
 }

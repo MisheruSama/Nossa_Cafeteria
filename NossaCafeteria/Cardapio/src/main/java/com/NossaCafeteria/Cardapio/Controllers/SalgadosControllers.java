@@ -3,6 +3,8 @@ package com.NossaCafeteria.Cardapio.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +38,13 @@ public String salvarSalgado(@RequestBody Salgados salgado){
     return "redirect:/salgados.html";
 }
 @DeleteMapping("/salgados/excluir/{id}")
-public String excluirSalgado(@PathVariable Integer id){
+public ResponseEntity<String> excluirSalgado(@PathVariable Integer id){
+    try{
     salgados.excluir(id);
-    return "redirect:/salgados.html";
+    return ResponseEntity.ok("Item excluido com sucesso.");
+    } catch(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir item");
+    }
 }
 @PostMapping("/salgados/alterar")
 public String editarSalgado(@RequestBody Salgados salgado){

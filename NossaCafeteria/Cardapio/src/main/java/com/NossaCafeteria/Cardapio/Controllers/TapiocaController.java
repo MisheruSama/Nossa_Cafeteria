@@ -3,8 +3,12 @@ package com.NossaCafeteria.Cardapio.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +23,7 @@ private TapiocaDAO tapioca;
 
 @GetMapping("/tapiocas")
 public String indexTapioca(){
-    return "outros";
+    return "outros.html";
 }
 @GetMapping("/tapiocas/api")
 @ResponseBody
@@ -29,16 +33,20 @@ public List<Tapioca> listarTapiocas(){
 @PostMapping("/tapioca/salvar")
 public String salvarTapioca(@RequestBody Tapioca tapiocas){
     tapioca.incluir(tapiocas);
-    return "redirect:/tapioca";
+    return "redirect:/outros.html";
 }
-@PostMapping("/tapioca/excluir")
-public String excluir(@RequestBody Integer id){
+@DeleteMapping("/tapioca/excluir/{id}")
+public ResponseEntity<String> excluir(@PathVariable Integer id){
+    try{
     tapioca.excluir(id);
-    return "redirect:/tapioca";
+    return ResponseEntity.ok("Item excluido com sucesso");
+    } catch(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir o item");
+    }
 }
 @PostMapping("/tapioca/alterar")
 public String editarTapioca(@RequestBody Tapioca tapiocas){
     tapioca.alterar(tapiocas);
-    return "redirect:/tapioca";
+    return "redirect:/outros.html";
 }
 }

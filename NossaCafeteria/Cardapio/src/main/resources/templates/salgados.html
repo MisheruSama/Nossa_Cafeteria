@@ -178,18 +178,30 @@ function editarItem(item) {
 }
 
 // Função para excluir o item
-function excluirItem(id, endpointExcluir, endpointListar, containerId) {
-    const requestBody = { id: id }; // Adiciona o ID ao corpo da requisição
+function excluirItem(id, categoria) {
+    const endpointExcluir = categoria === "salgados" 
+        ? "/salgados/excluir" 
+        : "/sanduiches/excluir";
+
+    const endpointAtualizar = categoria === "salgados" 
+        ? "/salgados/api" 
+        : "/sanduiches/api";
+
+    const containerId = categoria === "salgados" 
+        ? "salgados-list" 
+        : "sanduiches-list";
+
+    const requestBody = { id: id };
 
     fetch(endpointExcluir, {
-        method: "POST", // Método ainda pode ser POST, ajustando para o back-end
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody), // Envia o ID no corpo da requisição
+        body: JSON.stringify(requestBody),
     })
         .then((response) => {
             if (response.ok) {
                 alert("Item excluído com sucesso!");
-                buscarDados(endpointListar, containerId, endpointExcluir); // Atualiza a lista de itens
+                buscarDados(endpointAtualizar, containerId, endpointExcluir); // Atualiza a lista correspondente
             } else {
                 return response.text().then((error) => {
                     throw new Error(error || "Erro desconhecido.");
@@ -201,6 +213,11 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
             alert(`Erro: ${error.message}`);
         });
 }
+
+// Adicionar chamada ao excluir com a categoria
+deleteButton.addEventListener("click", () => {
+    excluirItem(item.id, item.tipo); // Envia o tipo para identificar o endpoint correto
+});
 
     // Adicionar um item usando o formulário
     function adicionarNovoItem() {

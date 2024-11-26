@@ -21,7 +21,7 @@ public class BebidaGeladaController {
 @Autowired
 private BebidaGeladaDAO bebida;
 
-@GetMapping("/bebidas")
+@GetMapping("/bebidas.html")
 public String indexBebida(){
     return "bebidas.html";
 }

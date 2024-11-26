@@ -22,11 +22,6 @@ public class AcaiController {
 @Autowired
 private AcaiDAO acai;
 
-@GetMapping("/acai")
-public String indexAcai(){
-    return "outros.html";
-}
-
 @GetMapping("/acai/api")
 @ResponseBody
 public List<Acai> listar(){

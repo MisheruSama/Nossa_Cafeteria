@@ -20,10 +20,7 @@ public class SanduicheController {
 @Autowired
 private SanduicheDAO sanduiche;
 
-@GetMapping("/sanduiches")
-public String indexSanduiche(){
-    return "salgados";
-}
+
 @GetMapping("/sanduiches/api")
 @ResponseBody
 public List<Sanduiche> listarSanduiches(){

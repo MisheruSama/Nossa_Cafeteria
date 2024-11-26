@@ -21,10 +21,6 @@ public class CafeController {
 @Autowired
 private CafeDAO cafe;
 
-@GetMapping("/cafes")
-public String indexCafe(){
-    return "bebidas.html";
-}
 @GetMapping("/cafes/api")
 @ResponseBody
 public List<Cafe> listarCafes(){

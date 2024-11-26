@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +30,8 @@ public String salvar(@RequestBody Sanduiche sanduiches){
     sanduiche.incluir(sanduiches);
     return "redirect:/salgados.html";
 }
-@PostMapping("/sanduiches/{id}")
-public String excluir(@PathVariable Integer id){
+@PostMapping("/sanduiches/excluir")
+public String excluir(@RequestBody Integer id){
     sanduiche.excluir(id);
     return "redirect:/salgados.html";
 }

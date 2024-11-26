@@ -167,6 +167,7 @@ function editarItem(item) {
             .then((response) => {
                 if (response.ok) {
                     alert("Item atualizado com sucesso.");
+                    location.reload(); // Recarrega a página
                     document.getElementById("add-menu").classList.add("hidden");
                     clearForm(); // Limpa o formulário
                     buscarDados(endpointListar, containerId, endpointAlterar); // Atualiza a lista correspondente

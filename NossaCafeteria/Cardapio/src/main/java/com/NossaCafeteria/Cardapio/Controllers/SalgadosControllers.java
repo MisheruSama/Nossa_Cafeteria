@@ -34,7 +34,7 @@ public String salvarSalgado(@RequestBody Salgados salgado){
     salgados.incluir(salgado);
     return "redirect:/salgados.html";
 }
-@PostMapping("/salgados/excluir")
+@PostMapping("/salgados/excluir/{id}")
 public String excluirSalgado(@PathVariable Integer id){
     salgados.excluir(id);
     return "redirect:/salgados.html";

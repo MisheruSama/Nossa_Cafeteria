@@ -179,18 +179,24 @@ function editarItem(item) {
 
 // Função para excluir o item
 function excluirItem(id, endpointExcluir, endpointListar, containerId) {
-    fetch(`${endpointExcluir}/${id}`, { method: 'POST' }) // Método DELETE
-        .then(response => {
+    const requestBody = { id: id }; // Adiciona o ID ao corpo da requisição
+
+    fetch(endpointExcluir, {
+        method: "POST", // Método ainda pode ser POST, ajustando para o back-end
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody), // Envia o ID no corpo da requisição
+    })
+        .then((response) => {
             if (response.ok) {
                 alert("Item excluído com sucesso!");
                 buscarDados(endpointListar, containerId, endpointExcluir); // Atualiza a lista de itens
             } else {
-                return response.text().then(error => {
+                return response.text().then((error) => {
                     throw new Error(error || "Erro desconhecido.");
                 });
             }
         })
-        .catch(error => {
+        .catch((error) => {
             console.error("Erro ao excluir o item:", error.message);
             alert(`Erro: ${error.message}`);
         });

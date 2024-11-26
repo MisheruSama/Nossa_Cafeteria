@@ -107,7 +107,14 @@ function buscarDados(endpoint, containerId, endpointExcluir) {
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("delete-button");
                 deleteButton.textContent = "EXCLUIR";
-                deleteButton.addEventListener("click", () => {excluirItem(item.id, endpointExcluir, endpoint, containerId);});
+                deleteButton.addEventListener("click", () => {
+                    excluirItem(
+                        item.id,                  // ID do item
+                        endpointExcluir,          // URL para exclusão
+                        endpoint,                 // URL para atualizar a lista
+                        containerId               // Container para renderizar a lista
+                    );
+                });
 
                 // Adicionando o evento de exclusão ao botão
                 
@@ -178,46 +185,22 @@ function editarItem(item) {
 }
 
 // Função para excluir o item
-function excluirItem(id, categoria) {
-    const endpointExcluir = categoria === "salgados" 
-        ? "/salgados/excluir" 
-        : "/sanduiches/excluir";
-
-    const endpointAtualizar = categoria === "salgados" 
-        ? "/salgados/api" 
-        : "/sanduiches/api";
-
-    const containerId = categoria === "salgados" 
-        ? "salgados-list" 
-        : "sanduiches-list";
-
-    const requestBody = { id: id };
-
-    fetch(endpointExcluir, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-    })
-        .then((response) => {
-            if (response.ok) {
-                alert("Item excluído com sucesso!");
-                buscarDados(endpointAtualizar, containerId, endpointExcluir); // Atualiza a lista correspondente
-            } else {
-                return response.text().then((error) => {
-                    throw new Error(error || "Erro desconhecido.");
-                });
-            }
+function excluirItem(itemId, urlExcluir, endpointAtualizar, containerId) {
+    if (confirm("Tem certeza que deseja excluir este item?")) {
+        fetch(`${urlExcluir}/${itemId}`, {
+            method: "DELETE",
         })
-        .catch((error) => {
-            console.error("Erro ao excluir o item:", error.message);
-            alert(`Erro: ${error.message}`);
-        });
+            .then((response) => {
+                if (response.ok) {
+                    alert("Item excluído com sucesso.");
+                    buscarDados(endpointAtualizar, containerId, urlExcluir); // Atualiza a lista
+                } else {
+                    console.error("Erro ao excluir o item:", response.statusText);
+                }
+            })
+            .catch((error) => console.error("Erro ao excluir o item:", error));
+    }
 }
-
-// Adicionar chamada ao excluir com a categoria
-deleteButton.addEventListener("click", () => {
-    excluirItem(item.id, item.tipo); // Envia o tipo para identificar o endpoint correto
-});
 
     // Adicionar um item usando o formulário
     function adicionarNovoItem() {

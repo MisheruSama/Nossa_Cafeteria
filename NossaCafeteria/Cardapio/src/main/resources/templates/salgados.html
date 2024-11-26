@@ -94,7 +94,7 @@ function buscarDados(endpoint, containerId, endpointExcluir) {
                 itemNome.innerHTML = `${item.nome} <span class="price">R$ ${item.preco.toFixed(2)}</span>`;
 
                 const itemDescricao = document.createElement("p");
-                itemDescricao.textContent = item.tipo;
+                itemDescricao.textContent = item.descricao;
 
                 const orderButton = document.createElement("div");
                 orderButton.classList.add("order-button");
@@ -126,37 +126,54 @@ function buscarDados(endpoint, containerId, endpointExcluir) {
 
 // Função para editar o item
 function editarItem(item) {
+    // Preenche os campos do formulário com os valores do item
     document.getElementById("itemNome").value = item.nome;
     document.getElementById("itemPreco").value = item.preco;
-    document.getElementById("itemDescricao").value = item.tipo;
-    document.getElementById("add-menu").classList.remove("hidden");
-    document.getElementById("alt-button").classList.remove("hidden"); // Exibe "Alterar"
-    document.getElementById("save-button").classList.add("hidden"); // Oculta "Salvar"
+    document.getElementById("itemDescricao").value = item.descricao; // Mantém a descrição
+    document.getElementById("itemCategoria").value = item.tipo; // Preenche com o tipo (salgados/sanduiches)
 
+    // Exibe o menu de edição e ajusta os botões
+    document.getElementById("add-menu").classList.remove("hidden");
+    document.getElementById("alt-button").classList.remove("hidden"); // Mostra o botão Alterar
+    document.getElementById("save-button").classList.add("hidden"); // Oculta o botão Salvar
+
+    // Define a ação ao clicar em "Alterar"
     document.getElementById("alt-button").onclick = function () {
         const updatedItem = {
-            id: item.id, 
+            id: item.id,
             nome: document.getElementById("itemNome").value,
             preco: parseFloat(document.getElementById("itemPreco").value),
-            tipo: document.getElementById("itemDescricao").value
+            descricao: document.getElementById("itemDescricao").value,
+            tipo: document.getElementById("itemCategoria").value,
         };
 
-        fetch('/salgados/alterar', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        // Define os endpoints dinamicamente com base no tipo (salgados/sanduiches)
+        const endpointAlterar =
+            updatedItem.tipo === "salgados" ? "/salgados/alterar" : "/sanduiches/alterar";
+        const endpointListar =
+            updatedItem.tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
+        const containerId =
+            updatedItem.tipo === "salgados" ? "salgados-list" : "sanduiches-list";
+
+        // Faz o envio da atualização
+        fetch(endpointAlterar, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedItem),
         })
-        .then(response => {
-            if (response.ok) {
-                alert("Item atualizado com sucesso.");
-                document.getElementById("add-menu").classList.add("hidden");
-                clearForm();
-                buscarDados('/salgados/api', 'salgados-list', '/salgados'); // Atualiza a lista de salgados
-            } else {
-                console.error("Erro ao atualizar o item:", response.statusText);
-            }
-        })
-        .catch(error => console.error("Erro ao atualizar o item:", error));
+            .then((response) => {
+                if (response.ok) {
+                    alert("Item atualizado com sucesso.");
+                    document.getElementById("add-menu").classList.add("hidden");
+                    clearForm(); // Limpa o formulário
+                    buscarDados(endpointListar, containerId, endpointAlterar); // Atualiza a lista correspondente
+                } else {
+                    console.error("Erro ao atualizar o item:", response.statusText);
+                }
+            })
+            .catch((error) =>
+                console.error("Erro ao atualizar o item:", error)
+            );
     };
 }
 
@@ -179,12 +196,12 @@ function excluirItem(id, endpointExcluir, endpointListar, containerId) {
         });
 }
 
-         // Adicionar um item usando o formulário
-         function adicionarNovoItem() {
-    const nome = document.getElementById("itemNome").value;
-    const preco = parseFloat(document.getElementById("itemPreco").value);
-    const descricao = document.getElementById("itemDescricao").value; // Mantendo a descrição
-    const tipo = document.getElementById("itemCategoria").value; // Usando "tipo" para categorizar
+    // Adicionar um item usando o formulário
+    function adicionarNovoItem() {
+        const nome = document.getElementById("itemNome").value;
+        const preco = parseFloat(document.getElementById("itemPreco").value);
+        const descricao = document.getElementById("itemDescricao").value; // Mantendo a descrição
+        const tipo = document.getElementById("itemCategoria").value; // Usando "tipo" para categorizar
 
     if (nome && !isNaN(preco) && tipo) {
         const novoItem = {

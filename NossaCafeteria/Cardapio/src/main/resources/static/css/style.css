@@ -46,6 +46,7 @@ header {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    justify-content: center;
   }
   .interface h1 {
     font-family: "Gravitas One", serif;
@@ -415,10 +416,6 @@ h1 {
 
     .interface p {
         font-size: 15px;
-    }
-
-    .enter-button {
-        margin: auto;
     }
 
     .menu-grid img {

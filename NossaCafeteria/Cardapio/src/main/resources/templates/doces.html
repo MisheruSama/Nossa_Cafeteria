@@ -161,6 +161,10 @@
         const preco = parseFloat(document.getElementById("itemPreco").value);
         const descricao = document.getElementById("itemDescricao").value;
 
+        // Limpa o evento de edição
+    document.getElementById("alt-button").onclick = null;
+    clearForm();
+
         if (nome && !isNaN(preco)) {
             const novoItem = { nome, preco, descricao };
 

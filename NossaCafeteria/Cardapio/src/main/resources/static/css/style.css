@@ -80,6 +80,7 @@ header {
     font-weight: bold;
     background-color: transparent;
     margin-top: 25px;
+    justify-content: center;
 }
 
 .username {

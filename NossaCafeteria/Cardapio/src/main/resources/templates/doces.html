@@ -162,11 +162,7 @@
         const descricao = document.getElementById("itemDescricao").value;
 
         if (nome && !isNaN(preco)) {
-        const novoItem = {
-            nome: nome,
-            preco: preco,
-            descricao: descricao,
-        };
+            const novoItem = { nome, preco, descricao };
 
             fetch('/doces/salvar', {
                 method: 'POST',

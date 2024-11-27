@@ -25,7 +25,7 @@ private TapiocaDAO tapioca;
 public String indexTapioca(){
     return "outros.html";
 }
-@GetMapping("/tapiocas/api")
+@GetMapping("/tapioca/api")
 @ResponseBody
 public List<Tapioca> listarTapiocas(){
     return tapioca.obterTodos();

@@ -38,7 +38,7 @@
             <h2>Tapiocas</h2>
         </div>
 
-        <div id="tapiocas-list"></div>
+        <div id="tapioca-list"></div>
     </div>
 
     <button class="add-button" id="add-button">ADICIONAR</button>
@@ -58,7 +58,7 @@
         <label for="itemCategoria">Categoria:</label>
         <select id="itemCategoria" required>
             <option value="acai">Açaí</option>
-            <option value="tapiocas">tapiocas</option>
+            <option value="tapioca">tapioca</option>
         </select>
 
         <button id="save-button" class="save-button">SALVAR</button>
@@ -72,7 +72,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         buscarDados('/acai/api', 'acai-list', '/acai');
-        buscarDados('/tapiocas/api', 'tapiocas-list', '/tapiocas');
+        buscarDados('/tapioca/api', 'tapioca-list', '/tapioca');
     });
 
     // Função para buscar dados de um endpoint e renderizar a lista
@@ -109,9 +109,9 @@
                     deleteButton.textContent = "EXCLUIR";
                     deleteButton.addEventListener("click", () => {
                         const tipo = item.tipo;
-                        const endpointExcluir = tipo === "acai" ? `/acai/excluir/${item.id}` : `/tapiocas/excluir/${item.id}`;
-                        const endpointAtualizar = tipo === "acai" ? "/acai/api" : "/tapiocas/api";
-                        const containerId = tipo === "acai" ? "acai-list" : "tapiocas-list";
+                        const endpointExcluir = tipo === "acai" ? `/acai/excluir/${item.id}` : `/tapioca/excluir/${item.id}`;
+                        const endpointAtualizar = tipo === "acai" ? "/acai/api" : "/tapioca/api";
+                        const containerId = tipo === "acai" ? "acai-list" : "tapioca-list";
                         excluirItem(item.id, endpointExcluir, endpointAtualizar, containerId); // Chama a função de exclusão
                     });
 
@@ -152,11 +152,11 @@
 
             // Define os endpoints com base no tipo
             const endpointAlterar =
-                updatedItem.tipo === "acai" ? "/acai/alterar" : "/tapiocas/alterar";
+                updatedItem.tipo === "acai" ? "/acai/alterar" : "/tapioca/alterar";
             const endpointListar =
-                updatedItem.tipo === "acai" ? "/acai/api" : "/tapiocas/api";
+                updatedItem.tipo === "acai" ? "/acai/api" : "/tapioca/api";
             const containerId =
-                updatedItem.tipo === "acai" ? "acai-list" : "tapiocas-list";
+                updatedItem.tipo === "acai" ? "acai-list" : "tapioca-list";
 
             // Faz o envio da atualização
             fetch(endpointAlterar, {
@@ -214,9 +214,9 @@
         };
 
         // Define o endpoint com base no tipo
-        const endpointSalvar = tipo === "acai" ? "/acai/salvar" : "/tapiocas/salvar";
-        const endpointAtualizar = tipo === "acai" ? "/acai/api" : "/tapiocas/api";
-        const containerId = tipo === "acai" ? "acai-list" : "tapiocas-list";
+        const endpointSalvar = tipo === "acai" ? "/acai/salvar" : "/tapioca/salvar";
+        const endpointAtualizar = tipo === "acai" ? "/acai/api" : "/tapioca/api";
+        const containerId = tipo === "acai" ? "acai-list" : "tapioca-list";
 
         fetch(endpointSalvar, {
             method: 'POST',

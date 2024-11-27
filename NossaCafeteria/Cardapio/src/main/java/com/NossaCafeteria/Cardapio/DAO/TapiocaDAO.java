@@ -34,8 +34,8 @@ public class TapiocaDAO extends GenericDAO<Tapioca,Integer>{
         public void incluir(Tapioca tapioca){
         String sql = "INSERT INTO TAPIOCA(SABOR, PRECO, TIPO, DESCRICAO) VALUES(?, ?, ?, ?)";
         try(PreparedStatement statement = getConnection().prepareStatement(sql)){
-            statement.setString(1, tapioca.getsabor());
-            statement.setDouble(2, tapioca.getPreco());
+            statement.setString(1, tapioca.getnome());
+            statement.setDouble(2, tapioca.getpreco());
             statement.setString(3, tapioca.getTipo());
             statement.setString(4, tapioca.getDescricao());
             statement.execute();
@@ -59,8 +59,8 @@ public class TapiocaDAO extends GenericDAO<Tapioca,Integer>{
         public void alterar(Tapioca tapioca){
         String sql = "UPDATE TAPIOCA SET SABOR = ?, PRECO = ?, TIPO = ?, DESCRICAO = ?" + "WHERE ID = ?";
         try(PreparedStatement statement = getConnection().prepareStatement(sql)){
-            statement.setString(1, tapioca.getsabor());
-            statement.setDouble(2, tapioca.getPreco());
+            statement.setString(1, tapioca.getnome());
+            statement.setDouble(2, tapioca.getpreco());
             statement.setString(3, tapioca.getTipo());
             statement.setString(4, tapioca.getDescricao());
             statement.setInt(5, tapioca.getId());

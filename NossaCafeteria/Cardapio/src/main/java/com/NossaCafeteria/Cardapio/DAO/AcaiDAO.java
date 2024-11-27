@@ -16,7 +16,7 @@ public class AcaiDAO extends GenericDAO<Acai,Integer>{
     public void incluir(Acai acai){
     String sql = "INSERT INTO ACAI(TAMANHO, PRECO, TIPO, DESCRICAO) VALUES(?, ?, ?, ?)";
     try(PreparedStatement statement = getConnection().prepareStatement(sql)){
-        statement.setInt(1, acai.gettamanho());
+        statement.setString(1, acai.getnome());
         statement.setDouble(2, acai.getpreco());
         statement.setString(3, acai.getTipo());
         statement.setString(4, acai.getDescricao());
@@ -41,7 +41,7 @@ public class AcaiDAO extends GenericDAO<Acai,Integer>{
     public void alterar(Acai acai){
     String sql = "UPDATE ACAI SET TAMANHO = ?, PRECO = ?, TIPO = ?, DESCRICAO = ?" + "WHERE ID = ?";
     try(PreparedStatement statement = getConnection().prepareStatement(sql)){
-        statement.setInt(1, acai.gettamanho());
+        statement.setString(1, acai.getnome());
         statement.setDouble(2, acai.getpreco());
         statement.setString(3, acai.getTipo());
         statement.setString(4, acai.getDescricao());
@@ -60,7 +60,7 @@ public class AcaiDAO extends GenericDAO<Acai,Integer>{
             try(ResultSet resultAcai = statement.executeQuery()){
             while(resultAcai.next()){
                 Acais.add(new Acai(resultAcai.getInt("ID"),
-                resultAcai.getInt("TAMANHO"),
+                resultAcai.getString("TAMANHO"),
                 resultAcai.getDouble("PRECO"),
                 resultAcai.getString("TIPO"),
                 resultAcai.getString("DESCRICAO")));

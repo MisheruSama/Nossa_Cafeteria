@@ -106,26 +106,20 @@
 
     // Função para editar item
     function editarItem(item) {
-    // Preenche os campos do formulário com os valores do item a ser editado
-    document.getElementById("itemNome").value = item.nome;
-    document.getElementById("itemPreco").value = item.preco;
-    document.getElementById("itemDescricao").value = item.descricao;
+        document.getElementById("itemNome").value = item.nome;
+        document.getElementById("itemPreco").value = item.preco;
+        document.getElementById("itemDescricao").value = item.descricao;
 
-    // Mostra o menu de edição e ajusta os botões visíveis
-    document.getElementById("add-menu").classList.remove("hidden");
-    document.getElementById("alt-button").classList.remove("hidden");
-    document.getElementById("save-button").classList.add("hidden");
+        document.getElementById("add-menu").classList.remove("hidden");
+        document.getElementById("alt-button").classList.remove("hidden");
+        document.getElementById("save-button").classList.add("hidden");
 
-    // Remove qualquer evento anterior do botão "Alterar" para evitar conflitos
-    document.getElementById("alt-button").onclick = () => {
-        const { nome, preco, descricao } = getFormValues();
-
-        if (nome && preco >= 0) {
+        document.getElementById("alt-button").onclick = function () {
             const updatedItem = {
-                id: item.id, // Mantém o ID do item
-                nome: nome,
-                preco: preco,
-                descricao: descricao,
+                id: item.id,
+                nome: document.getElementById("itemNome").value,
+                preco: parseFloat(document.getElementById("itemPreco").value),
+                descricao: document.getElementById("itemDescricao").value,
             };
 
             fetch('/doces/alterar', {
@@ -134,27 +128,18 @@
                 body: JSON.stringify(updatedItem),
             })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Erro ao atualizar o item");
+                    if (response.ok) {
+                        alert("Item atualizado com sucesso.");
+                        document.getElementById("add-menu").classList.add("hidden");
+                        clearForm();
+                        buscarDados();
+                    } else {
+                        console.error("Erro ao atualizar o item:", response.statusText);
                     }
-                    return response.json();
                 })
-                .then(() => {
-                    alert("Item atualizado com sucesso.");
-                    document.getElementById("add-menu").classList.add("hidden");
-                    clearForm();
-                    buscarDados(); // Atualiza a lista com os dados mais recentes
-                })
-                .catch(error => {
-                    console.error("Erro ao atualizar o item:", error);
-                    alert("Erro ao atualizar o item. Tente novamente mais tarde.");
-                });
-        } else {
-            alert("Por favor, preencha todos os campos obrigatórios com valores válidos.");
-        }
-    };
+                .catch(error => console.error("Erro ao atualizar o item:", error));
+        };
     }
-
 
     // Função para excluir item
     function excluirItem(itemId) {
@@ -171,19 +156,12 @@
     }
 
     // Função para adicionar novo item
-    document.getElementById("add-button").addEventListener("click", () => {
-    clearForm();
-    document.getElementById("add-menu").classList.remove("hidden");
-    document.getElementById("save-button").classList.remove("hidden");
-    document.getElementById("alt-button").classList.add("hidden");
-
-    document.getElementById("alt-button").onclick = null;
-    });
-
     function adicionarNovoItem() {
-        const { nome, preco, descricao } = getFormValues();
+        const nome = document.getElementById("itemNome").value;
+        const preco = parseFloat(document.getElementById("itemPreco").value);
+        const descricao = document.getElementById("itemDescricao").value;
 
-        if (nome && preco >= 0) {
+        if (nome && !isNaN(preco)) {
             const novoItem = { nome, preco, descricao };
 
             fetch('/doces/salvar', {
@@ -192,33 +170,37 @@
                 body: JSON.stringify(novoItem),
             })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Erro ao salvar item");
+                    if (response.ok) {
+                        alert("Item adicionado com sucesso.");
+                        document.getElementById("add-menu").classList.add("hidden");
+                        clearForm();
+                        buscarDados();
+                    } else {
+                        console.error("Erro ao adicionar o item:", response.statusText);
                     }
-                    return response.json();
                 })
-                .then(() => {
-                    alert("Item adicionado com sucesso.");
-                    document.getElementById("add-menu").classList.add("hidden");
-                    clearForm();
-                    buscarDados();
-                })
-                .catch(error => {
-                    console.error("Erro ao adicionar o item:", error);
-                    alert("Erro ao adicionar o item. Tente novamente mais tarde.");
-                });
+                .catch(error => console.error("Erro ao adicionar o item:", error));
         } else {
-            alert("Por favor, preencha todos os campos obrigatórios com valores válidos.");
+            alert("Por favor, preencha todos os campos obrigatórios.");
         }
     }
 
-    function getFormValues() {
-        return {
-            nome: document.getElementById("itemNome").value,
-            preco: parseFloat(document.getElementById("itemPreco").value),
-            descricao: document.getElementById("itemDescricao").value,
-        };
+    // Função para limpar o formulário
+    function clearForm() {
+        document.getElementById("itemNome").value = "";
+        document.getElementById("itemPreco").value = "";
+        document.getElementById("itemDescricao").value = "";
     }
+
+    // Configuração dos botões
+    document.getElementById("save-button").addEventListener("click", adicionarNovoItem);
+    document.getElementById("add-button").addEventListener("click", () => {
+        document.getElementById("add-menu").classList.remove("hidden");
+    });
+    document.getElementById("cancel-button").addEventListener("click", () => {
+        document.getElementById("add-menu").classList.add("hidden");
+        clearForm();
+    });
 
 </script>
 </html>

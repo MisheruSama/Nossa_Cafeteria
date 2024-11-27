@@ -183,7 +183,12 @@
         const { nome, preco, descricao } = getFormValues();
 
         if (nome && preco >= 0) {
-            const novoItem = { nome, preco, descricao };
+            const updatedItem = {
+                id: item.id, // Mantém o ID do item
+                nome: nome,
+                preco: preco,
+                descricao: descricao,
+            };
 
             fetch('/doces/salvar', {
                 method: 'POST',

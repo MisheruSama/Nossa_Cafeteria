@@ -1,20 +1,25 @@
 package com.NossaCafeteria.Cardapio.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Entity
+@Table(name = "bebida_gelada")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BebidaGelada extends Produto{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String tipo;
-
-    public BebidaGelada(Integer id, String nome, Double preco, String tipo, String descricao) {
-        super(id, nome, preco, descricao);
-        this.tipo = tipo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-    public void settipo(String tipo){
-        this.tipo=tipo;
-    }
 
 }
 

@@ -1,19 +1,25 @@
 package com.NossaCafeteria.Cardapio.Model;
 
-public class Cafe extends Produto{
-    private String tipo;
-    
-    public Cafe(Integer id, String nome, Double preco, String tipo, String descricao) {
-        super(id, nome, preco, descricao);
-        this.tipo = tipo;
-    }
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    public String getTipo() {
-        return tipo;
-    }
-    public void SetTipo(String tipo){
-        this.tipo=tipo;
-    }
+@Entity
+@Table(name = "cafe")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Cafe extends Produto{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String tipo;
     
 }
 

@@ -29,20 +29,20 @@ private SanduicheRepository sanduiche;
 public List<Sanduiche> listarSanduiches(){
     return sanduiche.findAll();
 }
-@PostMapping("/sanduiches/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public String salvar(@RequestBody Sanduiche sanduiches){
     sanduiche.save(sanduiches);
     return "Sanduiche salvo com sucesso.";
 }
-@DeleteMapping("/sanduiches/excluir")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public String excluir(@RequestBody Sanduiche sanduiches){
     sanduiche.delete(sanduiches);
     return "Sanduiche excluído com sucesso.";
 
 }
-@PostMapping("/sanduiches/alterar")
+@PostMapping("/alterar")
 public String editar(@RequestBody Sanduiche sanduiches){
     Optional<Sanduiche> sanduicheExistente = sanduiche.findById(sanduiches.getId());
     if(sanduicheExistente.isPresent()){

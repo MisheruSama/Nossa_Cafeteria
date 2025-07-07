@@ -109,7 +109,7 @@
                     deleteButton.textContent = "EXCLUIR";
                     deleteButton.addEventListener("click", () => {
                         const tipo = item.tipo;
-                        const endpointExcluir = tipo === "acai" ? `/acai/excluir/${item.id}` : `/tapioca/excluir/${item.id}`;
+                        const endpointExcluir = tipo === "acai" ? `/acai/api/excluir` : `/tapioca/api/excluir`;
                         const endpointAtualizar = tipo === "acai" ? "/acai/api" : "/tapioca/api";
                         const containerId = tipo === "acai" ? "acai-list" : "tapioca-list";
                         excluirItem(item.id, endpointExcluir, endpointAtualizar, containerId); // Chama a função de exclusão
@@ -152,7 +152,7 @@
 
             // Define os endpoints com base no tipo
             const endpointAlterar =
-                updatedItem.tipo === "acai" ? "/acai/alterar" : "/tapioca/alterar";
+                updatedItem.tipo === "acai" ? "/acai/api/alterar" : "/tapioca/api/alterar";
             const endpointListar =
                 updatedItem.tipo === "acai" ? "/acai/api" : "/tapioca/api";
             const containerId =
@@ -186,6 +186,7 @@
         fetch(endpointExcluir, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ id: itemId }) // Envia o id no corpo do request
         })
         .then(response => {
             if (response.ok) {
@@ -214,7 +215,7 @@
         };
 
         // Define o endpoint com base no tipo
-        const endpointSalvar = tipo === "acai" ? "/acai/salvar" : "/tapioca/salvar";
+        const endpointSalvar = tipo === "acai" ? "/acai/api/salvar" : "/tapioca/api/salvar";
         const endpointAtualizar = tipo === "acai" ? "/acai/api" : "/tapioca/api";
         const containerId = tipo === "acai" ? "acai-list" : "tapioca-list";
 

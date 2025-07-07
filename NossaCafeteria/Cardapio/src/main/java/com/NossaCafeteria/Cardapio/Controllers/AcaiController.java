@@ -28,17 +28,17 @@ public List<Acai> listar(){
     return acai.findAll();
 }
 
-@PostMapping("/acai/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public void salvarAcai(@RequestBody Acai salvarAcai){
    acai.save(salvarAcai);
 }
-@DeleteMapping("/acai/excluir")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public void exluirAcai(@RequestBody Acai excluirAcai){
    acai.delete(excluirAcai);
 }
-@PostMapping("/acai/alterar")
+@PostMapping("/alterar")
 public String editarAcai(@RequestBody Acai editAcai){
    Optional<Acai> acaiExistente = acai.findById(editAcai.getId());
    if(acaiExistente.isPresent()){

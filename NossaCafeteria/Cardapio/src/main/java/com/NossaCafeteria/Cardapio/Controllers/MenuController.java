@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MenuController {
 
-    @GetMapping("/login")
+    @GetMapping("/login.html")
     public String login() {
         return "login";
     }
@@ -16,22 +16,22 @@ public class MenuController {
         return "index";
     }
 
-    @GetMapping("/outros")
+    @GetMapping("/outros.html")
     public String indexTapioca() {
         return "outros";
     }
 
-    @GetMapping("/bebidas")
+    @GetMapping("/bebidas.html")
     public String indexBebida() {
         return "bebidas";
     }
 
-    @GetMapping("/doces")
+    @GetMapping("/doces.html")
     public String indexDoces() {
         return "doces";
     }
 
-    @GetMapping("/salgados")
+    @GetMapping("/salgados.html")
     public String indexSalgado() {
         return "salgados";
     }

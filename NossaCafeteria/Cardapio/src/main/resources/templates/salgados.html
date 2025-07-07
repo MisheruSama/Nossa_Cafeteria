@@ -109,7 +109,7 @@
                     deleteButton.textContent = "EXCLUIR";
                     deleteButton.addEventListener("click", () => {
                         const tipo = item.tipo;
-                        const endpointExcluir = tipo === "salgados" ? `/salgados/excluir/${item.id}` : `/sanduiches/excluir/${item.id}`;
+                        const endpointExcluir = tipo === "salgados" ? `/salgados/api/excluir` : `/sanduiches/api/excluir`;
                         const endpointAtualizar = tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
                         const containerId = tipo === "salgados" ? "salgados-list" : "sanduiches-list";
                         excluirItem(item.id, endpointExcluir, endpointAtualizar, containerId); // Chama a função de exclusão
@@ -152,7 +152,7 @@
 
             // Define os endpoints com base no tipo
             const endpointAlterar =
-                updatedItem.tipo === "salgados" ? "/salgados/alterar" : "/sanduiches/alterar";
+                updatedItem.tipo === "salgados" ? "/salgados/api/alterar" : "/sanduiches/api/alterar";
             const endpointListar =
                 updatedItem.tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
             const containerId =
@@ -186,6 +186,7 @@
         fetch(endpointExcluir, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: itemId }) // Envia o id no corpo do request
         })
         .then(response => {
             if (response.ok) {
@@ -214,7 +215,7 @@
         };
 
         // Define o endpoint com base no tipo
-        const endpointSalvar = tipo === "salgados" ? "/salgados/salvar" : "/sanduiches/salvar";
+        const endpointSalvar = tipo === "salgados" ? "/salgados/api/salvar" : "/sanduiches/api/salvar";
         const endpointAtualizar = tipo === "salgados" ? "/salgados/api" : "/sanduiches/api";
         const containerId = tipo === "salgados" ? "salgados-list" : "sanduiches-list";
 

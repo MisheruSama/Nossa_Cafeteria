@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CardapioApplication<Cardapio>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.NossaCafeteria.Cardapio.CardapioApplication",
+            "projectName": "Cardapio",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -27,19 +27,19 @@ private TapiocaRepository tapioca;
 public List<Tapioca> listarTapiocas(){
     return tapioca.findAll();
 }
-@PostMapping("/tapioca/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public String salvarTapioca(@RequestBody Tapioca tapiocas){
     tapioca.save(tapiocas);
     return "Tapioca salva com sucesso";
 }
-@DeleteMapping("/tapioca/excluir")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public String excluir(@RequestBody Tapioca tapiocas){
     tapioca.delete(tapiocas);
     return "Tapioca excluída com sucesso";
 }
-@PostMapping("/tapioca/alterar")
+@PostMapping("/alterar")
 public String editarTapioca(@RequestBody Tapioca tapiocas){
     Optional<Tapioca> tapiocaExistente = tapioca.findById(tapiocas.getId());
     if(tapiocaExistente.isPresent()){

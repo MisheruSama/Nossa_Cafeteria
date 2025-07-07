@@ -27,19 +27,19 @@ private DocesRepository candy;
 public List<Doces> listarDoces(){
 return candy.findAll();
 }
-@PostMapping("/doces/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public String salvarDoces(@RequestBody Doces doce){
     candy.save(doce);
     return "Doce salvo com sucesso";
 }
-@DeleteMapping("/doces/excluir")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public String excluir(@RequestBody Doces doce){
    candy.delete(doce);
    return "Doce excluido com sucesso";
 }
-@PostMapping("/doces/alterar")
+@PostMapping("/alterar")
 public String editarDoces(@RequestBody Doces doce){
     Optional<Doces> doceExistente = candy.findById(doce.getId());
     if(doceExistente.isPresent()){  

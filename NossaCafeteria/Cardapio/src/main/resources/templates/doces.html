@@ -93,7 +93,7 @@
                     deleteButton.classList.add("delete-button");
                     deleteButton.textContent = "EXCLUIR";
                     deleteButton.addEventListener("click", () => {
-                        excluirItem(item.id, `/doces/excluir/${item.id}`, '/doces/api', 'doces-list'); 
+                        excluirItem(item.id, '/doces/api/excluir', '/doces/api', 'doces-list');
                     });
 
                     itemDetails.appendChild(itemNome);
@@ -126,7 +126,7 @@
                 descricao: document.getElementById("itemDescricao").value,
             };
 
-            fetch('/doces/alterar', {
+            fetch('doces/api/alterar', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedItem),
@@ -137,7 +137,7 @@
                     location.reload();
                     document.getElementById("add-menu").classList.add("hidden");
                     clearForm();
-                    buscarDados('/doces/api', 'doces-list', '/doces/alterar');
+                    buscarDados('/doces/api', 'doces-list', '/doces/api/alterar');
                 } else {
                     console.error("Erro ao atualizar o item:", response.statusText);
                 }
@@ -153,6 +153,7 @@
         fetch(endpointExcluir, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: itemId }) // Envia o id no corpo do request
         })
         .then(response => {
             if (response.ok) {
@@ -174,7 +175,7 @@
         if (nome && !isNaN(preco)) {
             const novoItem = { nome, preco, descricao };
 
-            fetch('/doces/salvar', {
+            fetch('doces/api/salvar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novoItem),
@@ -184,7 +185,7 @@
                     alert("Item adicionado com sucesso.");
                     document.getElementById("add-menu").classList.add("hidden");
                     clearForm();
-                    buscarDados('/doces/api', 'doces-list', '/doces/salvar');
+                    buscarDados('/doces/api', 'doces-list', '/doces/api/salvar');
                 } else {
                     console.error("Erro ao adicionar o item:", response.statusText);
                 }

@@ -28,17 +28,17 @@ private BebidaGeladaRepository bebida;
 public List<BebidaGelada> listarBebidasAPI(){
     return bebida.findAll();
 }
-@PostMapping("/bebidas/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public void salvarBebida(@RequestBody BebidaGelada bebidasGelada){
     bebida.save(bebidasGelada);
 }
-@DeleteMapping("/bebidas/excluir/{id}")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public void excluirBebida(@RequestBody BebidaGelada bebidasBebidaGelada){
     bebida.delete(bebidasBebidaGelada);
 }
-@PostMapping("/bebidas/alterar")
+@PostMapping("/alterar")
 public String editarBebida(@RequestBody BebidaGelada bebidasGelada){
     Optional<BebidaGelada> bebidaExistente = bebida.findById(bebidasGelada.getId());
     if(bebidaExistente.isPresent()){

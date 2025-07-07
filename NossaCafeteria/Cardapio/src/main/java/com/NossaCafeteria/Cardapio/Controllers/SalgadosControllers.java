@@ -28,19 +28,19 @@ private SalgadosRepository salgados;
 public List<Salgados> listarSalgados(){
     return salgados.findAll();
 }
-@PostMapping("/salgados/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public String salvarSalgado(@RequestBody Salgados salgado){
     salgados.save(salgado);
     return "Salgado salvo com sucesso";
 }
-@DeleteMapping("/salgados/excluir")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public String excluirSalgado(@RequestBody Salgados salgado){
     salgados.delete(salgado);
     return "Salgado excluído com sucesso";
 }
-@PostMapping("/salgados/alterar")
+@PostMapping("/alterar")
 public String editarSalgado(@RequestBody Salgados salgado){
     Optional<Salgados> salgadoExistente = salgados.findById(salgado.getId());
     if(salgadoExistente.isPresent()){

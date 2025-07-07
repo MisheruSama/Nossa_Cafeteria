@@ -26,19 +26,19 @@ private CafeRepository cafe;
 public List<Cafe> listarCafes(){
     return cafe.findAll();
 }
-@PostMapping("/cafes/salvar")
+@PostMapping("/salvar")
 @ResponseStatus(HttpStatus.CREATED)
 public String salvarCafe(@RequestBody Cafe cafes){
     cafe.save(cafes);
     return "Cafe salvo com sucesso";
 }
-@DeleteMapping("/cafes/excluir")
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@DeleteMapping("/excluir")
+@ResponseStatus(HttpStatus.NO_CONTENT)
 public String excluirCafe(@RequestBody Cafe cafes){
     cafe.delete(cafes);
     return "Cafe excluido com sucesso";
 }
-@PostMapping("/cafes/alterar")
+@PostMapping("/alterar")
 public String editarCafe(@RequestBody Cafe cafes){
    Optional<Cafe> cafeExistente = cafe.findById(cafes.getId());
    if(cafeExistente.isPresent()){

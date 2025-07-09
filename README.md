@@ -97,3 +97,34 @@ Editar
 http://localhost:8080/
 
 
+
+
+
+---
+
+## 🎯 Futuras Melhorias
+
+- [ ] Implementar login e autenticação no backend
+
+---
+
+## 👨‍💻 Desenvolvedores
+
+| Nome            | Função                |
+|-----------------|------------------------|
+| Michel Germano  | Banco de Dados & Backend |
+| Maiky | Front end e Estilização |
+| Mariana | Design das Páginas |
+
+---
+
+## 🪪 Licença
+
+Este projeto é de uso educacional e livre para estudo. Para uso comercial, entre em contato com os desenvolvedores.
+
+---
+
+## 🌐 Contato
+
+📧 michelgermano010@outlook.com  
+🐙 GitHub: [MisheruSama](https://github.com/MisheruSama)
